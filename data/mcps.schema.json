@@ -1,0 +1,170 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/NilsEngeln/MCP_research/blob/main/data/mcps.schema.json",
+  "title": "Banking and finance MCP research dataset",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "generatedAt", "methodologyUrl", "mcps"],
+  "properties": {
+    "schemaVersion": { "const": "1.0.0" },
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "methodologyUrl": { "type": "string", "format": "uri-reference" },
+    "mcps": {
+      "type": "array",
+      "minItems": 12,
+      "items": { "$ref": "#/$defs/mcp" }
+    }
+  },
+  "$defs": {
+    "url": { "type": "string", "format": "uri" },
+    "unknownString": { "type": ["string", "null"] },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title", "url", "accessedAt", "supports"],
+      "properties": {
+        "title": { "type": "string", "minLength": 1 },
+        "url": { "$ref": "#/$defs/url" },
+        "accessedAt": { "type": "string", "format": "date-time" },
+        "supports": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "capability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "kind", "summary", "risk", "evidence"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "kind": { "enum": ["tool", "resource", "prompt"] },
+        "summary": { "type": "string", "minLength": 1 },
+        "risk": { "enum": ["read_only", "state_changing", "mixed", "unknown"] },
+        "evidence": { "enum": ["runtime", "documentation"] }
+      }
+    },
+    "test": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "testedAt",
+        "versionOrCommit",
+        "transport",
+        "initialize",
+        "toolsList",
+        "resourcesList",
+        "promptsList",
+        "readCall",
+        "evidencePath",
+        "notes"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "verified",
+            "documentation_only",
+            "blocked",
+            "failed",
+            "not_tested",
+            "stale"
+          ]
+        },
+        "testedAt": { "type": ["string", "null"], "format": "date-time" },
+        "versionOrCommit": { "$ref": "#/$defs/unknownString" },
+        "transport": { "$ref": "#/$defs/unknownString" },
+        "initialize": { "enum": ["passed", "failed", "not_attempted", "unsupported"] },
+        "toolsList": { "enum": ["passed", "failed", "not_attempted", "unsupported"] },
+        "resourcesList": { "enum": ["passed", "failed", "not_attempted", "unsupported"] },
+        "promptsList": { "enum": ["passed", "failed", "not_attempted", "unsupported"] },
+        "readCall": { "enum": ["passed", "failed", "not_attempted", "not_safe", "not_available"] },
+        "evidencePath": { "type": ["string", "null"] },
+        "notes": { "type": "string" }
+      }
+    },
+    "mcp": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "summary",
+        "maintainer",
+        "maintainerType",
+        "official",
+        "categories",
+        "repositoryUrl",
+        "documentationUrl",
+        "license",
+        "commercialUse",
+        "transports",
+        "installation",
+        "runtime",
+        "authentication",
+        "upstreamProviders",
+        "geographies",
+        "institutions",
+        "markets",
+        "assetClasses",
+        "capabilities",
+        "readWriteRisk",
+        "maintenanceStatus",
+        "lastReleaseOrCommitAt",
+        "limitations",
+        "test",
+        "sources",
+        "verifiedAt"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+        "name": { "type": "string", "minLength": 1 },
+        "summary": { "type": "string", "minLength": 1 },
+        "maintainer": { "type": "string", "minLength": 1 },
+        "maintainerType": { "enum": ["provider", "foundation", "community", "individual", "unknown"] },
+        "official": { "type": "boolean" },
+        "categories": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "enum": [
+              "open_banking",
+              "payments",
+              "market_data",
+              "investments",
+              "crypto_defi",
+              "accounting_treasury",
+              "regulatory_risk",
+              "personal_finance"
+            ]
+          }
+        },
+        "repositoryUrl": { "type": ["string", "null"], "format": "uri" },
+        "documentationUrl": { "type": ["string", "null"], "format": "uri" },
+        "license": { "$ref": "#/$defs/unknownString" },
+        "commercialUse": { "enum": ["allowed", "restricted", "unclear", "unknown"] },
+        "transports": {
+          "type": "array",
+          "items": { "enum": ["stdio", "streamable_http", "sse", "websocket", "other", "unknown"] }
+        },
+        "installation": { "type": "string" },
+        "runtime": { "type": "array", "items": { "type": "string" } },
+        "authentication": { "type": "array", "items": { "type": "string" } },
+        "upstreamProviders": { "type": "array", "items": { "type": "string" } },
+        "geographies": { "type": "array", "items": { "type": "string" } },
+        "institutions": { "type": "array", "items": { "type": "string" } },
+        "markets": { "type": "array", "items": { "type": "string" } },
+        "assetClasses": { "type": "array", "items": { "type": "string" } },
+        "capabilities": { "type": "array", "items": { "$ref": "#/$defs/capability" } },
+        "readWriteRisk": { "enum": ["read_only", "state_changing", "mixed", "unknown"] },
+        "maintenanceStatus": { "enum": ["active", "limited", "inactive", "archived", "unknown"] },
+        "lastReleaseOrCommitAt": { "type": ["string", "null"], "format": "date-time" },
+        "limitations": { "type": "array", "items": { "type": "string" } },
+        "test": { "$ref": "#/$defs/test" },
+        "sources": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/source" } },
+        "verifiedAt": { "type": "string", "format": "date-time" }
+      }
+    }
+  }
+}

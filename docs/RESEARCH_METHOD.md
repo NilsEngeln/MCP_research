@@ -1,0 +1,90 @@
+# Research and connection-test method
+
+## 1. Candidate discovery
+
+Find candidates through official provider documentation, canonical GitHub
+organizations, package registries, the official MCP ecosystem, and maintained
+source repositories. Confirm that each candidate is an MCP server or exposes a
+documented MCP interface. Record forks only when they add distinct capability
+or active maintenance.
+
+## 2. Source verification
+
+For each candidate, collect the canonical documentation and source/package URL.
+Prefer primary sources. Record the access date in UTC and retain the specific
+source URL supporting each capability or limitation. Do not copy marketing
+claims into the dashboard without attribution.
+
+## 3. Pre-test safety review
+
+Before running a server:
+
+1. Inspect its installation instructions, manifest, dependencies, permissions,
+   and requested environment variables.
+2. Identify all tools that may create or mutate financial/account state.
+3. Confirm that testing can use public data, fixtures, or an isolated sandbox.
+4. Do not install software that requests suspicious privileges or opaque binary
+   execution. Record `blocked` with the reason instead.
+5. Keep credentials outside the repository and redact command output.
+
+## 4. Connection test
+
+Use an isolated temporary environment or container where practical. Record the
+OS/runtime and MCP client or inspector version. A standards-level attempt is:
+
+1. Install and start the documented server entry point.
+2. Connect over its supported transport (`stdio`, Streamable HTTP, SSE, or
+   another documented transport).
+3. Send `initialize` and record the negotiated protocol version and server info.
+4. Send the initialized notification.
+5. Request `tools/list`, `resources/list`, and `prompts/list`; record explicit
+   unsupported responses as such.
+6. If safe and permitted, invoke one harmless public or sandbox read-only tool.
+7. Stop the server and remove temporary credentials/artifacts.
+
+Never invoke a tool that creates payments, transfers, trades, orders, refunds,
+invoices, beneficiaries, subscriptions, account changes, approvals, or any
+other financial write.
+
+## 5. Test-state vocabulary
+
+- `verified`: MCP initialization and capability discovery succeeded during this
+  research; any claimed read call is backed by sanitized evidence.
+- `documentation_only`: canonical documentation/source was checked, but no
+  runtime connection was attempted or permitted.
+- `blocked`: a test was attempted or prepared but could not proceed for a named
+  external reason such as credentials, geography, provider approval, or an
+  unavailable dependency.
+- `failed`: a permitted connection attempt ran and failed technically; record
+  the exact stage and sanitized error.
+- `not_tested`: no sufficiently verified runtime or documentation assessment is
+  yet available.
+- `stale`: previously gathered evidence is outside the dashboard's defined
+  freshness window or the underlying project has materially changed.
+
+## 6. Evidence format
+
+Store one Markdown or JSON evidence file per attempted MCP under
+`research/evidence/`. Include:
+
+- candidate ID and version/commit
+- UTC verification time
+- source URLs
+- environment and transport
+- sanitized commands
+- protocol version and server metadata
+- counts and names from capability discovery
+- harmless read-call summary, if any
+- final state and blocker/error
+- explicit redaction note
+
+Do not retain tokens, headers, cookies, account identifiers, wallet addresses,
+customer data, full bank/portfolio records, or unreviewed raw responses.
+
+## 7. Dashboard scoring
+
+If the dashboard includes a score, make it transparent and reproducible. Use
+only fields present in the dataset, show the scoring method, penalize unknowns,
+and do not collapse security risk or write capability into a single optimistic
+ranking. Qualitative labels with evidence are preferable when the data does not
+support a defensible numeric score.
