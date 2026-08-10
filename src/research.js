@@ -17,6 +17,8 @@ export const labels = {
   state_changing: "State changing",
   mixed: "Mixed",
   unknown: "Unknown",
+  none: "No credential",
+  required: "Credential required",
   streamable_http: "Streamable HTTP",
   stdio: "stdio",
   sse: "SSE",
@@ -29,10 +31,6 @@ export const labels = {
 
 export function label(value) {
   return labels[value] ?? value?.replaceAll("_", " ") ?? "Unknown";
-}
-
-export function hasCredential(candidate) {
-  return !candidate.authentication.some((item) => /^(none|no api key|no credential|anonymous)/i.test(item));
 }
 
 function normalizeSearch(value) {
@@ -57,7 +55,7 @@ export function filterCandidates(candidates, filters) {
       && (!filters.transport || candidate.transports.includes(filters.transport))
       && (!filters.license || candidate.license === filters.license)
       && (!filters.risk || candidate.readWriteRisk === filters.risk)
-      && (!filters.auth || (filters.auth === "credentialed") === hasCredential(candidate));
+      && (!filters.auth || candidate.authenticationClass === filters.auth);
   });
 }
 

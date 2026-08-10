@@ -31,9 +31,24 @@ npm run lint
 npm test
 npm run validate:data
 npm run build
+npx playwright install --with-deps chromium
+npm run smoke
 ```
 
-`npm run build` produces `dist/` and copies the methodology, canonical JSON/schema, and sanitized connection artifacts so dashboard evidence links work in the production artifact.
+`npm run build` produces a self-contained static `dist/` artifact and copies the methodology, canonical JSON/schema, and sanitized connection artifacts so dashboard evidence links work in production. `npm run smoke` starts that exact artifact locally and exercises 360×800 mobile and 1440×900 desktop layouts in headless Chromium. `npm run verify` runs the full sequence after Chromium has been installed once.
+
+## Human deployment
+
+No deployment is performed by this repository's build or verification commands. A human release owner can publish the static artifact to GitHub Pages, Netlify, Cloudflare Pages, an object store, or another static host:
+
+1. Check out the reviewed commit in a clean environment with Node.js 22+.
+2. Run `npm ci` and `npx playwright install --with-deps chromium`.
+3. Run `npm run verify`; do not publish if any check fails.
+4. Review `dist/`, especially `data/mcps.json` and `research/evidence/`, for release suitability.
+5. Configure the host to publish the contents of `dist/` (not the repository root) over HTTPS. Preserve the directory hierarchy and serve `index.html` at the chosen root or subpath.
+6. After the human-controlled upload, check the dashboard, methodology, dataset, schema, and one evidence link on mobile and desktop.
+
+Vite emits relative asset and evidence URLs, so the same `dist/` works at a domain root or a repository subpath without rebuilding. The app has no server runtime, credential, environment variable, or writable backend. For a public host, add platform-native security headers such as `Content-Security-Policy`, `X-Content-Type-Options: nosniff`, and `Referrer-Policy: strict-origin-when-cross-origin` in that host's configuration; header syntax is provider-specific and intentionally not coupled to this artifact.
 
 ## Dataset validation
 
@@ -45,6 +60,10 @@ npm run build
 - at least eight recorded standards-level attempts
 - non-empty claim lists for every source
 - resolvable evidence paths
+- exact agreement between dataset test results and evidence artifacts
+- every runtime-labelled capability appearing in the recorded discovery catalog
+- evidence source URLs appearing in the candidate's cited sources
+- evidence containing no value that the probe sanitizer would redact
 
 ## Opt-in live connection testing
 
@@ -69,9 +88,11 @@ For a hosted Streamable HTTP endpoint, replace `--command` and `--arg` with `--u
 3. requests `tools/list`, `resources/list`, and `prompts/list`;
 4. optionally calls one tool only if its name is in the source-code allowlist;
 5. stores capability names and a result summary, not financial response values;
-6. redacts token-like strings and home paths.
+6. recursively sanitizes every string before writing, including nested server metadata;
+7. removes URL credentials, query strings, and fragments and redacts sensitive command arguments, headers, assignments, tokens, and home paths.
 
 A non-allowlisted `--read-tool` fails closed. Do not add a state-changing tool to the allowlist.
+Connection failures default to `failed`; use `--failure-class blocked` only when the pre-test review has already established an external credential, consent, geography, or provider-approval blocker. This explicit classification replaces error-message guessing.
 
 ## Research snapshot
 

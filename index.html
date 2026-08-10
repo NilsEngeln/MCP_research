@@ -30,7 +30,7 @@
           <p class="lede">Connection evidence, capability risk, setup friction, and primary sources—without a leaderboard that hides the trade-offs.</p>
           <div class="hero-actions">
             <a class="button primary" href="#inventory">Explore the inventory</a>
-            <a class="button secondary" href="/docs/RESEARCH_METHOD.md">Read the method</a>
+            <a class="button secondary" href="./docs/RESEARCH_METHOD.md">Read the method</a>
           </div>
         </div>
         <div id="hero-stats" class="hero-stats" aria-label="Research statistics"></div>
@@ -71,7 +71,7 @@
           <label><span>Category</span><select name="category"><option value="">All categories</option></select></label>
           <label><span>Maintainer</span><select name="maintainerType"><option value="">All maintainers</option></select></label>
           <label><span>Test state</span><select name="status"><option value="">All states</option></select></label>
-          <label><span>Authentication</span><select name="auth"><option value="">Any auth</option><option value="none">No credential documented</option><option value="credentialed">Credential or consent required</option></select></label>
+          <label><span>Authentication</span><select name="auth"><option value="">Any auth</option><option value="none">No credential</option><option value="required">Credential or consent required</option><option value="mixed">Mixed public and credentialed</option><option value="unknown">Unknown</option></select></label>
           <label><span>Transport</span><select name="transport"><option value="">All transports</option></select></label>
           <label><span>License</span><select name="license"><option value="">All licenses</option></select></label>
           <label><span>Read/write risk</span><select name="risk"><option value="">Any risk</option></select></label>
@@ -94,7 +94,7 @@
             <p class="eyebrow">Capability map</p>
             <h2 id="coverage-title">Coverage is broad. Integration readiness is not.</h2>
           </div>
-          <p>Cells show test state, not product quality.</p>
+          <p><span class="matrix-key covered" aria-hidden="true">●</span> covered · <span class="matrix-key not-covered" aria-hidden="true">—</span> not covered. Test state is shown separately and does not indicate product quality.</p>
         </div>
         <div class="table-scroll" tabindex="0" aria-label="Scrollable capability coverage matrix">
           <table id="coverage-table">
@@ -115,7 +115,7 @@
             <li>Blocked and failed are kept distinct from not tested.</li>
             <li>Unknown coverage remains unknown.</li>
           </ul>
-          <a href="/docs/RESEARCH_METHOD.md">Full research and connection-test method →</a>
+          <a href="./docs/RESEARCH_METHOD.md">Full research and connection-test method →</a>
         </div>
       </section>
     </main>

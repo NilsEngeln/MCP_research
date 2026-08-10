@@ -8,6 +8,8 @@ const grid = document.querySelector("#inventory-grid");
 const dialog = document.querySelector("#detail-dialog");
 const detailContent = document.querySelector("#detail-content");
 const emptyState = document.querySelector("#empty-state");
+const publicBase = import.meta.env.BASE_URL;
+let detailTrigger = null;
 
 function escapeHtml(value) {
   return String(value ?? "")
@@ -56,7 +58,7 @@ function renderSummary() {
   document.querySelector("#finding-cards").innerHTML = `
     <article class="finding-card accent">
       <span class="finding-number">01</span>
-      <h3>Six servers crossed the protocol line.</h3>
+      <h3>${stats.verified} servers crossed the protocol line.</h3>
       <p>${stats.verified} of ${stats.attempted} attempts completed MCP initialization and capability discovery. “Verified” does not mean endorsed.</p>
       <a href="#status-legend">See the evidence legend →</a>
     </article>
@@ -98,7 +100,7 @@ function candidateCard(candidate) {
     <div class="tag-row">${candidate.categories.map((value) => `<span>${escapeHtml(label(value))}</span>`).join("")}</div>
     <dl class="card-facts">
       <div><dt>Transport</dt><dd>${candidate.transports.map(label).join(", ")}</dd></div>
-      <div><dt>Auth</dt><dd>${escapeHtml(candidate.authentication[0] ?? "Unknown")}</dd></div>
+      <div><dt>Auth</dt><dd>${escapeHtml(label(candidate.authenticationClass))}</dd></div>
       <div><dt>Risk</dt><dd>${badge(candidate.readWriteRisk, "risk")}</dd></div>
       <div><dt>License</dt><dd>${escapeHtml(candidate.license ?? "Unknown")}</dd></div>
     </dl>
@@ -127,16 +129,16 @@ function renderCoverage() {
     <thead><tr><th scope="col">Candidate</th>${categories.map((value) => `<th scope="col">${escapeHtml(label(value))}</th>`).join("")}<th scope="col">Test state</th></tr></thead>
     <tbody>${candidates.map((candidate) => `<tr>
       <th scope="row"><button class="table-link" data-detail="${candidate.id}">${escapeHtml(candidate.name)}</button></th>
-      ${categories.map((value) => `<td>${candidate.categories.includes(value) ? `<span aria-label="Covered">●</span>` : `<span class="not-covered" aria-label="Not covered">—</span>`}</td>`).join("")}
+      ${categories.map((value) => `<td>${candidate.categories.includes(value) ? `<span class="covered" aria-label="Covered">●</span>` : `<span class="not-covered" aria-label="Not covered">—</span>`}</td>`).join("")}
       <td>${badge(candidate.test.status)}</td>
     </tr>`).join("")}</tbody>`;
 }
 
 function evidenceHref(path) {
-  return path ? `/${path.replace(/^\.\.\//, "")}` : null;
+  return path ? `${publicBase}${path.replace(/^\.\.\//, "")}` : null;
 }
 
-function showDetail(id) {
+function showDetail(id, trigger = null) {
   const candidate = candidates.find((item) => item.id === id);
   if (!candidate) return;
   const test = candidate.test;
@@ -205,6 +207,7 @@ function showDetail(id) {
       <p>${["verified", "documentation_only", "blocked", "failed", "not_tested", "stale"].map((value) => badge(value)).join(" ")}</p>
       <p><strong>Verified</strong> means initialization and capability discovery passed in this snapshot—not that security, reliability, or suitability was audited.</p>
     </div>`;
+  detailTrigger = trigger;
   dialog.showModal();
   dialog.querySelector(".dialog-close").focus();
 }
@@ -214,7 +217,7 @@ form.addEventListener("reset", () => requestAnimationFrame(renderInventory));
 emptyState.querySelector("button").addEventListener("click", () => { form.reset(); renderInventory(); });
 document.addEventListener("click", (event) => {
   const detailButton = event.target.closest("[data-detail]");
-  if (detailButton) showDetail(detailButton.dataset.detail);
+  if (detailButton) showDetail(detailButton.dataset.detail, detailButton);
   const clearButton = event.target.closest("[data-clear]");
   if (clearButton) {
     form.elements[clearButton.dataset.clear].value = "";
@@ -223,6 +226,10 @@ document.addEventListener("click", (event) => {
 });
 dialog.addEventListener("click", (event) => {
   if (event.target === dialog || event.target.closest(".dialog-close")) dialog.close();
+});
+dialog.addEventListener("close", () => {
+  detailTrigger?.focus();
+  detailTrigger = null;
 });
 
 populateFilters();

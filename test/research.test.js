@@ -1,7 +1,8 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
-import { filterCandidates, hasCredential, sortCandidates, summarize } from "../src/research.js";
+import { redactEvidence, sanitizeCommandForEvidence, sanitizeUrlForEvidence } from "../scripts/probe-safety.mjs";
+import { filterCandidates, sortCandidates, summarize } from "../src/research.js";
 
 const dataset = JSON.parse(await readFile(new URL("../data/mcps.json", import.meta.url), "utf8"));
 const candidates = dataset.mcps;
@@ -26,13 +27,32 @@ test("search includes capability text and combines filters", () => {
   assert.deepEqual(result.map(({ id }) => id), ["quickbooks-community"]);
 });
 
-test("authentication classification separates public starts from credential gates", () => {
-  assert.equal(hasCredential(candidates.find(({ id }) => id === "stripe")), true);
-  assert.equal(hasCredential(candidates.find(({ id }) => id === "easy-finance")), false);
-  assert.equal(hasCredential(candidates.find(({ id }) => id === "pipeworx-edgar")), false);
+test("authentication filtering uses explicit dataset classifications", () => {
+  assert.equal(candidates.find(({ id }) => id === "stripe").authenticationClass, "required");
+  assert.equal(candidates.find(({ id }) => id === "easy-finance").authenticationClass, "none");
+  assert.equal(candidates.find(({ id }) => id === "arcadia-finance").authenticationClass, "mixed");
   const publicCandidates = filterCandidates(candidates, { auth: "none" });
-  assert(publicCandidates.some(({ id }) => id === "arcadia-finance"));
+  assert(publicCandidates.some(({ id }) => id === "easy-finance"));
   assert(!publicCandidates.some(({ id }) => id === "xero"));
+  assert.deepEqual(
+    filterCandidates(candidates, { auth: "mixed" }).map(({ id }) => id).sort(),
+    ["arcadia-finance", "octagon"],
+  );
+});
+
+test("probe evidence strips credentials from commands, URLs, and nested output", () => {
+  assert.equal(
+    sanitizeCommandForEvidence("mcp", ["--api-key=sk_live_sensitive", "--mode", "public"]),
+    "mcp --api-key=[REDACTED] --mode public",
+  );
+  assert.equal(
+    sanitizeUrlForEvidence("https://user:pass@example.test/mcp?token=secret#fragment"),
+    "https://example.test/mcp",
+  );
+  assert.deepEqual(
+    redactEvidence({ authorization: "Bearer abc.def.ghi", nested: ["client_secret=visible"] }),
+    { authorization: "[REDACTED]", nested: ["client_secret=[REDACTED]"] },
+  );
 });
 
 test("status sorting is deterministic and puts verified entries first", () => {

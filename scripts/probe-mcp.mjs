@@ -4,6 +4,12 @@ import { dirname } from "node:path";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
 import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/streamableHttp.js";
+import {
+  redactEvidence,
+  sanitizeCommandForEvidence,
+  sanitizeEvidenceText as sanitize,
+  sanitizeUrlForEvidence,
+} from "./probe-safety.mjs";
 
 function parseArgs(values) {
   const options = { args: [], sources: [], timeout: 45_000 };
@@ -15,14 +21,6 @@ function parseArgs(values) {
     else if (key.startsWith("--")) options[key.slice(2)] = values[++index];
   }
   return options;
-}
-
-function sanitize(value) {
-  return String(value ?? "")
-    .replaceAll(process.env.HOME ?? "__NO_HOME__", "~")
-    .replace(/(api[_-]?key|token|secret|authorization)[=:]\s*[^\s,;]+/gi, "$1=[REDACTED]")
-    .replace(/[A-Za-z0-9_-]{40,}/g, "[REDACTED-LONG-VALUE]")
-    .slice(0, 2_000);
 }
 
 function safeEnvironment() {
@@ -75,6 +73,9 @@ async function main() {
   if (!options.id || !options.output || (!options.command && !options.url)) {
     throw new Error("Usage: probe-mcp --id ID --output PATH (--command COMMAND [--arg ARG] | --url URL)");
   }
+  if (options["failure-class"] && !["blocked", "failed"].includes(options["failure-class"])) {
+    throw new Error("--failure-class must be either blocked or failed");
+  }
 
   let stderr = "";
   const transport = options.url
@@ -103,10 +104,12 @@ async function main() {
     candidateId: options.id,
     versionOrCommit: options.version ?? "unknown",
     testedAt: new Date().toISOString(),
-    sourceUrls: options.sources,
+    sourceUrls: options.sources.map(sanitizeUrlForEvidence),
     environment: `Linux; Node ${process.version}; @modelcontextprotocol/sdk 1.x`,
     transport: options.url ? "streamable_http" : "stdio",
-    sanitizedCommand: options.url ? `connect ${options.url}` : [options.command, ...options.args].join(" "),
+    sanitizedCommand: options.url
+      ? `connect ${sanitizeUrlForEvidence(options.url)}`
+      : sanitizeCommandForEvidence(options.command, options.args),
     initialize: { result: "failed", protocolVersion: null, serverInfo: null },
     toolsList: { result: "not_attempted", count: 0, names: [] },
     resourcesList: { result: "not_attempted", count: 0, names: [] },
@@ -114,7 +117,7 @@ async function main() {
     readCall: { result: "not_attempted", note: "No financial tool was invoked; this probe is capability-discovery only." },
     finalState: "failed",
     notes: "",
-    redaction: "No credentials were supplied. Output is truncated and token-like values are redacted.",
+    redaction: "Evidence was recursively sanitized before writing. URLs omit credentials, queries, and fragments; sensitive assignments, headers, tokens, and home paths are redacted.",
   };
 
   let timer;
@@ -144,18 +147,17 @@ async function main() {
     clearTimeout(timer);
     evidence.notes = sanitize(error?.message);
     evidence.stderr = sanitize(stderr);
-    evidence.finalState = /api key|credential|oauth|authentication|required env|environment variables not set|configure/i.test(`${evidence.notes} ${stderr}`)
-      ? "blocked"
-      : "failed";
+    evidence.finalState = options["failure-class"] ?? "failed";
   } finally {
     try { await client.close(); } catch { /* process may already be closed */ }
   }
 
   await mkdir(dirname(options.output), { recursive: true });
-  await writeFile(options.output, `${JSON.stringify(evidence, null, 2)}\n`);
-  console.log(`${options.id}: ${evidence.finalState}; initialize=${evidence.initialize.result}; tools=${evidence.toolsList.result}`);
-  if (evidence.notes) console.log(evidence.notes);
-  if (evidence.finalState === "failed") process.exitCode = 2;
+  const sanitizedEvidence = redactEvidence(evidence);
+  await writeFile(options.output, `${JSON.stringify(sanitizedEvidence, null, 2)}\n`);
+  console.log(`${options.id}: ${sanitizedEvidence.finalState}; initialize=${sanitizedEvidence.initialize.result}; tools=${sanitizedEvidence.toolsList.result}`);
+  if (sanitizedEvidence.notes) console.log(sanitizedEvidence.notes);
+  if (sanitizedEvidence.finalState === "failed") process.exitCode = 2;
 }
 
 await main();
