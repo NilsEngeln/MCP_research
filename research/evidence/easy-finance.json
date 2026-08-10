@@ -1,0 +1,53 @@
+{
+  "candidateId": "easy-finance",
+  "versionOrCommit": "1.1.3",
+  "testedAt": "2026-08-10T10:37:02.330Z",
+  "sourceUrls": [
+    "https://www.npmjs.com/package/@easysolutions906/mcp-finance"
+  ],
+  "environment": "Linux; Node v22.22.3; @modelcontextprotocol/sdk 1.x",
+  "transport": "stdio",
+  "sanitizedCommand": "npx -y @easysolutions906/mcp-finance@1.1.3",
+  "initialize": {
+    "result": "passed",
+    "protocolVersion": "2025-11-25",
+    "serverInfo": {
+      "name": "mcp-finance",
+      "version": "1.0.0"
+    },
+    "capabilities": {
+      "tools": {
+        "listChanged": true
+      }
+    }
+  },
+  "toolsList": {
+    "result": "passed",
+    "count": 4,
+    "names": [
+      "currency_convert",
+      "currency_rates",
+      "currency_list",
+      "currency_historical"
+    ]
+  },
+  "resourcesList": {
+    "result": "unsupported",
+    "count": 0,
+    "names": [],
+    "error": "MCP error -32601: Method not found"
+  },
+  "promptsList": {
+    "result": "unsupported",
+    "count": 0,
+    "names": [],
+    "error": "MCP error -32601: Method not found"
+  },
+  "readCall": {
+    "result": "passed",
+    "note": "currency_list returned 1 sanitized content block(s); payload values were not retained."
+  },
+  "finalState": "verified",
+  "notes": "Initialization, standards-level capability discovery, and an allowlisted public read completed.",
+  "redaction": "No credentials were supplied. Output is truncated and token-like values are redacted."
+}

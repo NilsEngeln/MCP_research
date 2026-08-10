@@ -1,0 +1,39 @@
+{
+  "candidateId": "coincap-crypto",
+  "versionOrCommit": "5.1.0",
+  "testedAt": "2026-08-10T10:34:59.355Z",
+  "sourceUrls": [
+    "https://github.com/truss44/mcp-crypto-price"
+  ],
+  "environment": "Linux; Node v22.22.3; @modelcontextprotocol/sdk 1.x",
+  "transport": "stdio",
+  "sanitizedCommand": "npx -y mcp-crypto-price@5.1.0",
+  "initialize": {
+    "result": "failed",
+    "protocolVersion": null,
+    "serverInfo": null
+  },
+  "toolsList": {
+    "result": "not_attempted",
+    "count": 0,
+    "names": []
+  },
+  "resourcesList": {
+    "result": "not_attempted",
+    "count": 0,
+    "names": []
+  },
+  "promptsList": {
+    "result": "not_attempted",
+    "count": 0,
+    "names": []
+  },
+  "readCall": {
+    "result": "not_attempted",
+    "note": "No financial tool was invoked; this probe is capability-discovery only."
+  },
+  "finalState": "blocked",
+  "notes": "MCP error -32000: Connection closed",
+  "redaction": "No credentials were supplied. Output is truncated and token-like values are redacted.",
+  "stderr": "Fatal error in main(): Error: COINCAP_API_KEY environment variable is required. Get your free API key at https://pro.coincap.io/dashboard\n    at main (file://~/.npm/_npx/e60e304edea58795/node_modules/mcp-crypto-price/dist/index.js:468:15)\n    at file://~/.npm/_npx/e60e304edea58795/node_modules/mcp-crypto-price/dist/index.js:496:5\n    at ModuleJob.run (node:internal/modules/esm/module_job:343:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:681:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)\n"
+}

@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Source-cited comparison of banking and finance Model Context Protocol servers." />
+    <meta name="theme-color" content="#071a2b" />
+    <title>Finance MCP Field Guide</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#inventory">Skip to inventory</a>
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="Finance MCP Field Guide home">
+        <span class="brand-mark" aria-hidden="true">F·M</span>
+        <span>Finance MCP<br /><strong>Field Guide</strong></span>
+      </a>
+      <nav aria-label="Primary navigation">
+        <a href="#findings">Findings</a>
+        <a href="#inventory">Inventory</a>
+        <a href="#coverage">Coverage</a>
+        <a href="#method">Method</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="page-title">
+        <div>
+          <p class="eyebrow">Independent technical research · August 2026</p>
+          <h1 id="page-title">A field guide to finance MCP infrastructure.</h1>
+          <p class="lede">Connection evidence, capability risk, setup friction, and primary sources—without a leaderboard that hides the trade-offs.</p>
+          <div class="hero-actions">
+            <a class="button primary" href="#inventory">Explore the inventory</a>
+            <a class="button secondary" href="/docs/RESEARCH_METHOD.md">Read the method</a>
+          </div>
+        </div>
+        <div id="hero-stats" class="hero-stats" aria-label="Research statistics"></div>
+      </section>
+
+      <section id="findings" class="section findings" aria-labelledby="findings-title">
+        <div class="section-heading">
+          <p class="eyebrow">Executive readout</p>
+          <h2 id="findings-title">What the evidence says</h2>
+        </div>
+        <div id="finding-cards" class="finding-grid"></div>
+      </section>
+
+      <section id="inventory" class="section inventory" aria-labelledby="inventory-title">
+        <div class="section-heading split">
+          <div>
+            <p class="eyebrow">Source-backed inventory</p>
+            <h2 id="inventory-title">Compare the candidates</h2>
+          </div>
+          <p id="result-count" class="result-count" aria-live="polite"></p>
+        </div>
+
+        <aside id="status-legend" class="status-legend" aria-labelledby="legend-title">
+          <strong id="legend-title">Evidence states</strong>
+          <span><span class="badge status-verified">Verified</span> initialization and discovery passed</span>
+          <span><span class="badge status-documentation_only">Documentation only</span> primary sources reviewed</span>
+          <span><span class="badge status-blocked">Blocked</span> external access requirement</span>
+          <span><span class="badge status-failed">Failed</span> technical attempt failed</span>
+          <span><span class="badge status-not_tested">Not tested</span> no assessment yet</span>
+          <span><span class="badge status-stale">Stale</span> evidence aged or changed</span>
+        </aside>
+
+        <form id="filters" class="filter-panel" aria-label="Filter MCP candidates">
+          <label class="search-field">
+            <span>Search</span>
+            <input id="search" name="search" type="search" placeholder="Name, maintainer, capability…" autocomplete="off" />
+          </label>
+          <label><span>Category</span><select name="category"><option value="">All categories</option></select></label>
+          <label><span>Maintainer</span><select name="maintainerType"><option value="">All maintainers</option></select></label>
+          <label><span>Test state</span><select name="status"><option value="">All states</option></select></label>
+          <label><span>Authentication</span><select name="auth"><option value="">Any auth</option><option value="none">No credential documented</option><option value="credentialed">Credential or consent required</option></select></label>
+          <label><span>Transport</span><select name="transport"><option value="">All transports</option></select></label>
+          <label><span>License</span><select name="license"><option value="">All licenses</option></select></label>
+          <label><span>Read/write risk</span><select name="risk"><option value="">Any risk</option></select></label>
+          <label><span>Sort by</span><select name="sort"><option value="name">Name</option><option value="status">Test state</option><option value="freshness">Freshness</option><option value="risk">Risk</option></select></label>
+          <button class="reset-button" type="reset">Reset filters</button>
+        </form>
+
+        <div id="active-filters" class="active-filters" aria-live="polite"></div>
+        <div id="inventory-grid" class="inventory-grid"></div>
+        <div id="empty-state" class="empty-state" hidden>
+          <strong>No candidates match those filters.</strong>
+          <p>Clear one or more filters to broaden the comparison.</p>
+          <button class="button secondary" type="button">Clear filters</button>
+        </div>
+      </section>
+
+      <section id="coverage" class="section coverage" aria-labelledby="coverage-title">
+        <div class="section-heading split">
+          <div>
+            <p class="eyebrow">Capability map</p>
+            <h2 id="coverage-title">Coverage is broad. Integration readiness is not.</h2>
+          </div>
+          <p>Cells show test state, not product quality.</p>
+        </div>
+        <div class="table-scroll" tabindex="0" aria-label="Scrollable capability coverage matrix">
+          <table id="coverage-table">
+            <caption>Candidate coverage by finance category and connection-test state</caption>
+          </table>
+        </div>
+      </section>
+
+      <section id="method" class="section method" aria-labelledby="method-title">
+        <div>
+          <p class="eyebrow">Safety and reproducibility</p>
+          <h2 id="method-title">Protocol discovery, never financial execution.</h2>
+        </div>
+        <div class="method-copy">
+          <p>Tests used isolated, credential-free starts or public hosted endpoints. They sent MCP initialize, then tools/list, resources/list, and prompts/list. Only explicitly allowlisted public reads were called. No payment, trade, transfer, refund, invoice, account mutation, signing, or broadcast tool was invoked.</p>
+          <ul>
+            <li>Capability claims say whether they came from runtime evidence or documentation.</li>
+            <li>Blocked and failed are kept distinct from not tested.</li>
+            <li>Unknown coverage remains unknown.</li>
+          </ul>
+          <a href="/docs/RESEARCH_METHOD.md">Full research and connection-test method →</a>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>Research snapshot generated <time id="generated-at"></time>. Verify sources before production adoption.</p>
+      <a href="https://github.com/NilsEngeln/MCP_research">Source repository</a>
+    </footer>
+
+    <dialog id="detail-dialog" aria-labelledby="detail-title">
+      <div id="detail-content"></div>
+    </dialog>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

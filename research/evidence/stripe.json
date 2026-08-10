@@ -1,0 +1,39 @@
+{
+  "candidateId": "stripe",
+  "versionOrCommit": "0.3.3",
+  "testedAt": "2026-08-10T10:35:13.851Z",
+  "sourceUrls": [
+    "https://github.com/stripe/ai/tree/main/tools/modelcontextprotocol"
+  ],
+  "environment": "Linux; Node v22.22.3; @modelcontextprotocol/sdk 1.x",
+  "transport": "stdio",
+  "sanitizedCommand": "npx -y @stripe/mcp@0.3.3",
+  "initialize": {
+    "result": "failed",
+    "protocolVersion": null,
+    "serverInfo": null
+  },
+  "toolsList": {
+    "result": "not_attempted",
+    "count": 0,
+    "names": []
+  },
+  "resourcesList": {
+    "result": "not_attempted",
+    "count": 0,
+    "names": []
+  },
+  "promptsList": {
+    "result": "not_attempted",
+    "count": 0,
+    "names": []
+  },
+  "readCall": {
+    "result": "not_attempted",
+    "note": "No financial tool was invoked; this probe is capability-discovery only."
+  },
+  "finalState": "blocked",
+  "notes": "MCP error -32000: Connection closed",
+  "redaction": "No credentials were supplied. Output is truncated and token-like values are redacted.",
+  "stderr": "\n🚨  Error initializing Stripe MCP server:\n\n   Stripe API key not provided. Please either pass it as an argument --api-key=[REDACTED] or set the STRIPE_SECRET_KEY environment variable.\n\n~/.npm/_npx/c753c9bf4aa6b59c/node_modules/@stripe/mcp/dist/cli.js:34\n        throw new Error('Stripe API key not provided. Please either pass it as an argument --api-key=[REDACTED] or set the STRIPE_SECRET_KEY environment variable.');\n              ^\n\nError: Stripe API key not provided. Please either pass it as an argument --api-key=[REDACTED] or set the STRIPE_SECRET_KEY environment variable.\n    at parseArgs (~/.npm/_npx/c753c9bf4aa6b59c/node_modules/@stripe/mcp/dist/cli.js:34:15)\n    at main (~/.npm/_npx/c753c9bf4aa6b59c/node_modules/@stripe/mcp/dist/index.js:18:41)\n    at Object.<anonymous> (~/.npm/_npx/c753c9bf4aa6b59c/node_modules/@stripe/mcp/dist/index.js:81:5)\n    at Module._compile (node:internal/modules/cjs/loader:1781:14)\n    at Object..js (node:internal/modules/cjs/loader:1913:10)\n    at Module.load (node:internal/modules/cjs/loader:1505:32)\n    at Function._load (node:internal/modules/cjs/loader:1309:12)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:254:19)\n    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:171:5)\n    at node:internal/main/run_main_module:36:49\n\nNode.js v22.22.3\n"
+}
