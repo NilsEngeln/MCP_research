@@ -1,0 +1,124 @@
+{
+  "candidateId": "octagon",
+  "versionOrCommit": "1.2.0",
+  "testedAt": "2026-08-10T10:37:50.061Z",
+  "sourceUrls": [
+    "https://github.com/OctagonAI/octagon-mcp-server"
+  ],
+  "environment": "Linux; Node v22.22.3; @modelcontextprotocol/sdk 1.x",
+  "transport": "stdio",
+  "sanitizedCommand": "npx -y octagon-mcp@1.2.0",
+  "initialize": {
+    "result": "passed",
+    "protocolVersion": "2025-11-25",
+    "serverInfo": {
+      "name": "octagon-mcp",
+      "version": "1.2.0"
+    },
+    "capabilities": {
+      "completions": {},
+      "resources": {
+        "listChanged": true
+      },
+      "tools": {
+        "listChanged": true
+      }
+    }
+  },
+  "toolsList": {
+    "result": "passed",
+    "count": 8,
+    "names": [
+      "octagon-docs-list",
+      "octagon-docs-search",
+      "octagon-docs-read",
+      "octagon-docs-refresh",
+      "octagon-deep-research-agent",
+      "octagon-agent",
+      "octagon-prediction-markets-agent",
+      "prediction_markets_history"
+    ]
+  },
+  "resourcesList": {
+    "result": "passed",
+    "count": 63,
+    "names": [
+      "octagon-docs-catalog",
+      "octagon-docs-status",
+      "docs:octagon-claude-plugin",
+      "docs:octagon-agents-guide",
+      "docs:octagon-mcp-server",
+      "docs:octagon-ai",
+      "docs:how-octagon-api-works",
+      "docs:api-architecture-and-integration",
+      "docs:core-concepts",
+      "docs:getting-started-with-code-examples",
+      "docs:example-basic-usage",
+      "docs:initialize-the-client-with-octagons-api-base-and-your-api-key",
+      "docs:make-a-request-to-the-sec-filings-agent",
+      "docs:print-the-response",
+      "docs:javascript-example-basic-usage",
+      "docs:example-using-financial-citations",
+      "docs:initialize-the-client",
+      "docs:make-a-request-to-the-financials-agent-with-citations",
+      "docs:parse-the-json-response",
+      "docs:access-the-citations-if-they-exist",
+      "docs:print-the-analysis",
+      "docs:advanced-example-multi-agent-research-workflow",
+      "docs:step-1-get-sec-filing-information",
+      "docs:step-2-analyze-financial-metrics",
+      "docs:step-3-check-recent-earnings-call",
+      "docs:execute-the-workflow-for-a-company",
+      "docs:api-documentation",
+      "docs:sdk-integration",
+      "docs:public-market-intelligence-agents",
+      "docs:prediction-markets-agent",
+      "docs:deep-research-agent",
+      "docs:integration-examples",
+      "docs:integration-example",
+      "docs:complete-python-integration-example",
+      "docs:set-up-environment-variables-for-security",
+      "docs:in-production-use-proper-environment-variable-management",
+      "docs:initialize-the-client-with-octagons-base-url-and-api-key",
+      "docs:example-usage",
+      "docs:javascripttypescript-integration-example",
+      "docs:openai-sdk-integration-example",
+      "docs:integration-with-openai-agents-sdk",
+      "docs:configure-the-api-client-with-octagons-base-url",
+      "docs:create-an-assistant-that-utilizes-octagon-agents",
+      "docs:function-implementations-that-call-the-appropriate-octagon-agents",
+      "docs:create-a-thread-for-the-conversation",
+      "docs:add-a-message-to-the-thread",
+      "docs:run-the-assistant-on-the-thread",
+      "docs:process-function-calls-from-the-assistant",
+      "docs:in-a-real-application-you-would-implement-a-polling-mechanism-or-use-webhooks",
+      "docs:this-is-a-simplified-example",
+      "docs:rest-api-documentation",
+      "docs:authentication-guide",
+      "docs:available-agents",
+      "docs:chat-completions-api",
+      "docs:responses-api",
+      "docs:openai-agents-sdk-integration",
+      "docs:research-workflow-example",
+      "docs:sec-filings-agent",
+      "docs:transcripts-agent",
+      "docs:stock-data-agent",
+      "docs:financials-agent",
+      "docs:prediction-markets-agent-2",
+      "docs:deep-research-agent-2"
+    ]
+  },
+  "promptsList": {
+    "result": "unsupported",
+    "count": 0,
+    "names": [],
+    "error": "MCP error -32601: Method not found"
+  },
+  "readCall": {
+    "result": "passed",
+    "note": "octagon-docs-list returned 1 sanitized content block(s); payload values were not retained."
+  },
+  "finalState": "verified",
+  "notes": "Initialization, standards-level capability discovery, and an allowlisted public read completed.",
+  "redaction": "No credentials were supplied. Output is truncated and token-like values are redacted."
+}

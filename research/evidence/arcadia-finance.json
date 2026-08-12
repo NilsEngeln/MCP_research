@@ -1,0 +1,98 @@
+{
+  "candidateId": "arcadia-finance",
+  "versionOrCommit": "0.5.0",
+  "testedAt": "2026-08-10T10:38:02.263Z",
+  "sourceUrls": [
+    "https://github.com/arcadia-finance/mcp-server"
+  ],
+  "environment": "Linux; Node v22.22.3; @modelcontextprotocol/sdk 1.x",
+  "transport": "stdio",
+  "sanitizedCommand": "npx -y @arcadia-finance/mcp-server@0.5.0",
+  "initialize": {
+    "result": "passed",
+    "protocolVersion": "2025-11-25",
+    "serverInfo": {
+      "name": "arcadia-finance",
+      "version": "0.5.0",
+      "description": "Arcadia Finance. Manage concentrated liquidity positions on Uniswap and Aerodrome with automated rebalancing, compounding, yield optimization, and leverage. Base and Unichain."
+    },
+    "capabilities": {
+      "prompts": {
+        "listChanged": true
+      },
+      "resources": {
+        "listChanged": true
+      },
+      "tools": {
+        "listChanged": true
+      }
+    }
+  },
+  "toolsList": {
+    "result": "passed",
+    "count": 35,
+    "names": [
+      "read.account.info",
+      "read.account.history",
+      "read.account.pnl",
+      "read.pool.list",
+      "read.pool.info",
+      "read.asset.list",
+      "read.asset.prices",
+      "read.strategy.list",
+      "read.strategy.info",
+      "read.strategy.recommendation",
+      "read.point_leaderboard",
+      "read.guides",
+      "read.wallet.balances",
+      "read.wallet.allowances",
+      "read.wallet.accounts",
+      "read.wallet.points",
+      "read.asset_manager.intents",
+      "read.asset_manager.current",
+      "write.account.create",
+      "write.account.deposit",
+      "write.account.withdraw",
+      "write.account.borrow",
+      "write.account.repay",
+      "write.account.add_liquidity",
+      "write.account.remove_liquidity",
+      "write.account.swap",
+      "write.account.deleverage",
+      "write.account.stake",
+      "write.account.close",
+      "write.wallet.approve",
+      "write.pool.deposit",
+      "write.pool.redeem",
+      "write.account.automations",
+      "write.account.automations_delta",
+      "dev.send"
+    ]
+  },
+  "resourcesList": {
+    "result": "passed",
+    "count": 4,
+    "names": [
+      "guide-overview",
+      "guide-automation",
+      "guide-strategies",
+      "guide-selection"
+    ]
+  },
+  "promptsList": {
+    "result": "passed",
+    "count": 3,
+    "names": [
+      "analyze-account",
+      "find-yield-strategy",
+      "setup-automation"
+    ]
+  },
+  "readCall": {
+    "result": "passed",
+    "note": "read.asset.list returned 1 sanitized content block(s); payload values were not retained."
+  },
+  "finalState": "verified",
+  "notes": "Initialization, standards-level capability discovery, and an allowlisted public read completed.",
+  "redaction": "No credentials were supplied. Output is truncated and token-like values are redacted."
+}

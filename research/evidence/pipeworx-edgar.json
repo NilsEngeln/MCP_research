@@ -1,0 +1,110 @@
+{
+  "candidateId": "pipeworx-edgar",
+  "versionOrCommit": "0.3.2",
+  "testedAt": "2026-08-10T10:37:04.843Z",
+  "sourceUrls": [
+    "https://github.com/pipeworx-io/mcp-edgar"
+  ],
+  "environment": "Linux; Node v22.22.3; @modelcontextprotocol/sdk 1.x",
+  "transport": "streamable_http",
+  "sanitizedCommand": "connect https://gateway.pipeworx.io/edgar/mcp",
+  "initialize": {
+    "result": "passed",
+    "protocolVersion": "2025-03-26",
+    "serverInfo": {
+      "name": "pipeworx-gateway",
+      "version": "0.1.0"
+    },
+    "capabilities": {
+      "prompts": {
+        "listChanged": false
+      },
+      "resources": {
+        "subscribe": false,
+        "listChanged": false
+      },
+      "tools": {
+        "listChanged": false
+      }
+    }
+  },
+  "toolsList": {
+    "result": "passed",
+    "count": 43,
+    "names": [
+      "ask_pipeworx",
+      "ask_pipeworx_beta",
+      "ask_pipeworx_grounded",
+      "search_within",
+      "deep_research",
+      "discover_tools",
+      "resolve_entity",
+      "compare_entities",
+      "subscribe",
+      "unsubscribe",
+      "list_subscriptions",
+      "recent_alerts",
+      "entity_profile",
+      "recent_changes",
+      "validate_claim",
+      "scan_dependency",
+      "bet_research",
+      "polymarket_arbitrage",
+      "polymarket_edges",
+      "polymarket_kalshi_spread",
+      "polymarket_fill_risk",
+      "polymarket_edge_tracker",
+      "pipeworx_trending",
+      "suggest_questions",
+      "generate_llms_txt",
+      "ai_visibility_check",
+      "scan_competitor_ai_presence",
+      "pipeworx_feedback",
+      "remember",
+      "recall",
+      "forget",
+      "edgar_search_filings",
+      "edgar_company_filings",
+      "edgar_company_facts",
+      "edgar_company_concept",
+      "edgar_insider_transactions",
+      "edgar_institutional_holdings",
+      "edgar_fund_holdings",
+      "edgar_ticker_to_cik",
+      "sponsor_to_filer",
+      "edgar_xbrl_frames",
+      "edgar_filing_documents",
+      "edgar_filing_text"
+    ]
+  },
+  "resourcesList": {
+    "result": "passed",
+    "count": 0,
+    "names": []
+  },
+  "promptsList": {
+    "result": "passed",
+    "count": 12,
+    "names": [
+      "research_public_company",
+      "drug_safety_profile",
+      "trade_exposure",
+      "housing_market_brief",
+      "regulatory_landscape",
+      "tool_chain_for_question",
+      "property_research",
+      "patent_due_diligence",
+      "lobbying_activity",
+      "financial_health_check",
+      "agricultural_commodity_brief",
+      "environmental_risk"
+    ]
+  },
+  "readCall": {
+    "result": "passed",
+    "note": "edgar_ticker_to_cik returned 1 sanitized content block(s); payload values were not retained."
+  },
+  "finalState": "verified",
+  "notes": "Initialization, standards-level capability discovery, and an allowlisted public read completed.",
+  "redaction": "No credentials were supplied. Output is truncated and token-like values are redacted."
+}

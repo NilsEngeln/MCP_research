@@ -88,3 +88,42 @@ only fields present in the dataset, show the scoring method, penalize unknowns,
 and do not collapse security risk or write capability into a single optimistic
 ranking. Qualitative labels with evidence are preferable when the data does not
 support a defensible numeric score.
+
+## 8. Snapshot-specific choices
+
+The August 10, 2026 dashboard uses qualitative comparison only; it does not
+rank or score candidates. `verified` means that initialization and capability
+discovery passed at the recorded time. It is not an endorsement, reliability
+claim, or security assessment.
+
+Connection attempts use `scripts/probe-mcp.mjs`. The probe inherits only a
+small runtime environment allowlist, stores capability names rather than full
+financial responses, and refuses read calls unless the exact tool name is in a
+source-reviewed public-read allowlist. Before writing, it recursively sanitizes
+all evidence strings, strips URL credentials/query strings/fragments, and
+redacts sensitive command arguments, assignments, headers, and token forms.
+The dataset validator rejects any evidence value that this sanitizer would
+change. The allowlisted snapshot calls were
+limited to public currency metadata, SEC ticker mapping, public market or asset
+metadata, and provider documentation. A failed read does not erase successful
+initialization evidence; both outcomes are shown.
+
+Candidates were selected to avoid near-identical forks and to cover distinct
+provider or workflow boundaries. Recent package publication is treated only as
+a maintenance signal, not evidence of quality. Hosted gateways are represented
+as their provider-specific adapters even when runtime discovery also exposes
+shared gateway tools; that shared surface is called out as a limitation.
+
+Credential-gated candidates remain `blocked` or `documentation_only` when a
+safe connection would require a real payment account, bank identity, accounting
+organization, API key tied to an account, or wallet material. Missing local
+runtime support is recorded as `failed`, not reclassified as a provider
+restriction. No privileged host package installation was performed to turn a
+failed attempt into a pass.
+
+Authentication filtering uses the schema-controlled `authenticationClass`
+field (`none`, `required`, `mixed`, or `unknown`); it does not infer access from
+free-form authentication prose. Probe failures likewise default to `failed`.
+Researchers may explicitly pass `--failure-class blocked` only after the
+pre-test review establishes an external credential, consent, geography, or
+provider-approval blocker; stderr text is not used to guess this state.

@@ -1,0 +1,39 @@
+{
+  "candidateId": "yahoo-finance",
+  "versionOrCommit": "1.2.5",
+  "testedAt": "2026-08-10T10:34:45.369Z",
+  "sourceUrls": [
+    "https://github.com/danishashko/yahoo-finance-mcp"
+  ],
+  "environment": "Linux; Node v22.22.3; @modelcontextprotocol/sdk 1.x",
+  "transport": "stdio",
+  "sanitizedCommand": "npx -y yahoo-finance-mcp-server@1.2.5",
+  "initialize": {
+    "result": "failed",
+    "protocolVersion": null,
+    "serverInfo": null
+  },
+  "toolsList": {
+    "result": "not_attempted",
+    "count": 0,
+    "names": []
+  },
+  "resourcesList": {
+    "result": "not_attempted",
+    "count": 0,
+    "names": []
+  },
+  "promptsList": {
+    "result": "not_attempted",
+    "count": 0,
+    "names": []
+  },
+  "readCall": {
+    "result": "not_attempted",
+    "note": "No financial tool was invoked; this probe is capability-discovery only."
+  },
+  "finalState": "failed",
+  "notes": "MCP error -32000: Connection closed",
+  "redaction": "No credentials were supplied. Output is truncated and token-like values are redacted.",
+  "stderr": "[yahoo-finance-mcp] Using python3 (Python 3.12).\n[yahoo-finance-mcp] First run: creating an isolated Python environment (one-time setup)...\nThe virtual environment was not created successfully because ensurepip is not\navailable.  On Debian/Ubuntu systems, you need to install the python3-venv\npackage using the following command.\n\n    apt install python3.12-venv\n\nYou may need to use sudo with that command.  After installing the python3-venv\npackage, recreate your virtual environment.\n\nFailing command: ~/.cache/yahoo-finance-mcp/venv/bin/python3\n\n[yahoo-finance-mcp] Failed to create a Python virtual environment.\n"
+}
