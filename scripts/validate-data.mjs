@@ -20,12 +20,36 @@ if (!validate(dataset)) {
 
 const ids = new Set(dataset.mcps.map(({ id }) => id));
 if (ids.size !== dataset.mcps.length) throw new Error("Candidate IDs must be unique");
+if (dataset.mcps.length !== 22) throw new Error(`Expected the reviewed 22-candidate inventory, found ${dataset.mcps.length}`);
 const categories = new Set(dataset.mcps.flatMap(({ categories: values }) => values));
 if (categories.size < 4) throw new Error(`Expected at least 4 categories, found ${categories.size}`);
 const attempts = dataset.mcps.filter(({ test }) => test.testedAt && test.initialize !== "not_attempted");
 if (attempts.length < 8) throw new Error(`Expected at least 8 connection attempts, found ${attempts.length}`);
+const requiredMaterialClaims = [
+  "provider",
+  "pricing",
+  "authentication",
+  "capabilities",
+  "deployment model",
+  "financial workflows",
+  "limitations",
+];
 for (const candidate of dataset.mcps) {
   if (candidate.sources.some(({ supports }) => supports.length === 0)) throw new Error(`${candidate.id} has an empty source claim list`);
+
+  const mappedClaims = new Set(candidate.sources.flatMap(({ supports }) => supports));
+  for (const claim of requiredMaterialClaims) {
+    if (!mappedClaims.has(claim)) throw new Error(`${candidate.id} lacks source mapping for material claim: ${claim}`);
+  }
+  if (candidate.repositoryUrl && !candidate.sources.some(({ evidenceType }) => evidenceType === "repository")) {
+    throw new Error(`${candidate.id} has a repository URL but no repository evidence source`);
+  }
+  if (candidate.test.status === "verified" && !candidate.capabilities.some(({ evidence }) => evidence === "runtime")) {
+    throw new Error(`${candidate.id} is verified but has no runtime-evidenced capability`);
+  }
+  if (candidate.test.status === "documentation_only" && candidate.capabilities.some(({ evidence }) => evidence === "runtime")) {
+    throw new Error(`${candidate.id} is documentation-only but claims a runtime-evidenced capability`);
+  }
   if (!candidate.test.evidencePath) continue;
 
   const evidencePath = resolve(root, "data", candidate.test.evidencePath);

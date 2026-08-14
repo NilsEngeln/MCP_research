@@ -44,6 +44,10 @@ export function filterCandidates(candidates, filters) {
       candidate.name,
       candidate.summary,
       candidate.maintainer,
+      candidate.deploymentModel,
+      candidate.pricing,
+      ...candidate.financialWorkflows,
+      ...candidate.authentication,
       ...candidate.categories.map(label),
       ...candidate.capabilities.flatMap(({ name, summary }) => [name, summary]),
       ...candidate.upstreamProviders,
@@ -80,6 +84,8 @@ export function summarize(candidates) {
     safeReads: candidates.filter(({ test }) => test.readCall === "passed").length,
     categories: new Set(candidates.flatMap(({ categories }) => categories)).size,
     mixedRisk: candidates.filter(({ readWriteRisk }) => readWriteRisk === "mixed" || readWriteRisk === "state_changing").length,
+    documentationOnly: candidates.filter(({ test }) => test.status === "documentation_only").length,
+    credentialGated: candidates.filter(({ authenticationClass }) => authenticationClass === "required").length,
   };
 }
 

@@ -8,6 +8,7 @@ const grid = document.querySelector("#inventory-grid");
 const dialog = document.querySelector("#detail-dialog");
 const detailContent = document.querySelector("#detail-content");
 const emptyState = document.querySelector("#empty-state");
+const errorState = document.querySelector("#error-state");
 const publicBase = import.meta.env.BASE_URL;
 let detailTrigger = null;
 
@@ -75,8 +76,8 @@ function renderSummary() {
     </article>
     <article class="finding-card">
       <span class="finding-number">04</span>
-      <h3>Banking and accounting remain credential-gated.</h3>
-      <p>The sole open-banking entry is documentation-only. The payment entry and official accounting entry were blocked before initialization; the other accounting entry was not tested.</p>
+      <h3>Ten primary-source additions widen the field, not the runtime claims.</h3>
+      <p>${stats.documentationOnly} candidates are documentation-only and ${stats.credentialGated} require credentials. Nine additions remain documentation-only; the credential-free Banking Regulations endpoint passed initialization and discovery with no tool invocation.</p>
       <a href="#coverage">View the coverage matrix →</a>
     </article>`;
 }
@@ -101,6 +102,8 @@ function candidateCard(candidate) {
     <dl class="card-facts">
       <div><dt>Transport</dt><dd>${candidate.transports.map(label).join(", ")}</dd></div>
       <div><dt>Auth</dt><dd>${escapeHtml(label(candidate.authenticationClass))}</dd></div>
+      <div><dt>Deployment</dt><dd>${escapeHtml(candidate.deploymentModel)}</dd></div>
+      <div><dt>Pricing</dt><dd>${escapeHtml(candidate.pricing)}</dd></div>
       <div><dt>Risk</dt><dd>${badge(candidate.readWriteRisk, "risk")}</dd></div>
       <div><dt>License</dt><dd>${escapeHtml(candidate.license ?? "Unknown")}</dd></div>
     </dl>
@@ -121,6 +124,15 @@ function renderInventory() {
   document.querySelector("#active-filters").innerHTML = active.length
     ? `<span>Active filters:</span>${active.map(([key, value]) => `<button type="button" data-clear="${key}">${escapeHtml(label(value))}<span aria-hidden="true"> ×</span></button>`).join("")}`
     : "";
+}
+
+function renderError(error) {
+  console.error("Finance MCP dashboard render failed", error);
+  grid.hidden = true;
+  form.hidden = true;
+  emptyState.hidden = true;
+  errorState.hidden = false;
+  document.querySelector("#result-count").textContent = "Inventory unavailable";
 }
 
 function renderCoverage() {
@@ -152,14 +164,17 @@ function showDetail(id, trigger = null) {
       </div>
       <button class="dialog-close" type="button" aria-label="Close details">×</button>
     </div>
-    <div class="detail-status">${badge(test.status)} ${badge(candidate.readWriteRisk, "risk")} <span>Verified ${formatDate(candidate.verifiedAt)}</span></div>
+    <div class="detail-status">${badge(test.status)} ${badge(candidate.readWriteRisk, "risk")} <span>Sources checked ${formatDate(candidate.verifiedAt)}</span></div>
     <div class="detail-grid">
       <section>
         <h3>Setup & coverage</h3>
         <dl class="detail-list">
           <div><dt>Install</dt><dd>${escapeHtml(candidate.installation)}</dd></div>
+          <div><dt>Deployment</dt><dd>${escapeHtml(candidate.deploymentModel)}</dd></div>
           <div><dt>Runtime</dt><dd>${candidate.runtime.map(escapeHtml).join(" · ")}</dd></div>
           <div><dt>Authentication</dt><dd>${candidate.authentication.map(escapeHtml).join(" · ")}</dd></div>
+          <div><dt>Pricing</dt><dd>${escapeHtml(candidate.pricing)}</dd></div>
+          <div><dt>Financial workflows</dt><dd>${candidate.financialWorkflows.map(escapeHtml).join(" · ")}</dd></div>
           <div><dt>Upstream</dt><dd>${candidate.upstreamProviders.map(escapeHtml).join(", ")}</dd></div>
           <div><dt>Geography</dt><dd>${candidate.geographies.map(escapeHtml).join(", ")}</dd></div>
           <div><dt>Markets</dt><dd>${candidate.markets.map(escapeHtml).join(", ")}</dd></div>
@@ -196,7 +211,7 @@ function showDetail(id, trigger = null) {
       <section>
         <h3>Sources</h3>
         <ol class="source-list">${candidate.sources.map((source) => `<li>
-          <a href="${escapeHtml(source.url)}" target="_blank" rel="noreferrer">${escapeHtml(source.title)} ↗</a>
+          <div>${badge(source.evidenceType, "evidence")} <a href="${escapeHtml(source.url)}" target="_blank" rel="noreferrer">${escapeHtml(source.title)} ↗</a></div>
           <span>Supports: ${source.supports.map(escapeHtml).join(", ")}</span>
           <small>Accessed ${formatDate(source.accessedAt)}</small>
         </li>`).join("")}</ol>
@@ -205,6 +220,7 @@ function showDetail(id, trigger = null) {
     <div class="legend">
       <h3>Evidence legend</h3>
       <p>${["verified", "documentation_only", "blocked", "failed", "not_tested", "stale"].map((value) => badge(value)).join(" ")}</p>
+      <p>${["runtime", "repository", "documentation"].map((value) => badge(value, "evidence")).join(" ")}</p>
       <p><strong>Verified</strong> means initialization and capability discovery passed in this snapshot—not that security, reliability, or suitability was audited.</p>
     </div>`;
   detailTrigger = trigger;
@@ -232,9 +248,16 @@ dialog.addEventListener("close", () => {
   detailTrigger = null;
 });
 
-populateFilters();
-renderSummary();
-renderInventory();
-renderCoverage();
-document.querySelector("#generated-at").dateTime = dataset.generatedAt;
-document.querySelector("#generated-at").textContent = formatDate(dataset.generatedAt, { year: "numeric", month: "long", day: "numeric" });
+window.addEventListener("error", (event) => renderError(event.error ?? event.message));
+
+try {
+  if (candidates.length !== 22) throw new Error(`Expected 22 candidates, received ${candidates.length}`);
+  populateFilters();
+  renderSummary();
+  renderInventory();
+  renderCoverage();
+  document.querySelector("#generated-at").dateTime = dataset.generatedAt;
+  document.querySelector("#generated-at").textContent = formatDate(dataset.generatedAt, { year: "numeric", month: "long", day: "numeric" });
+} catch (error) {
+  renderError(error);
+}

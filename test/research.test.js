@@ -9,12 +9,14 @@ const candidates = dataset.mcps;
 
 test("research summary reflects the canonical dataset", () => {
   assert.deepEqual(summarize(candidates), {
-    total: 12,
-    attempted: 10,
-    verified: 6,
+    total: 22,
+    attempted: 11,
+    verified: 7,
     safeReads: 5,
     categories: 8,
-    mixedRisk: 5,
+    mixedRisk: 13,
+    documentationOnly: 11,
+    credentialGated: 15,
   });
 });
 
@@ -24,7 +26,7 @@ test("search includes capability text and combines filters", () => {
     category: "accounting_treasury",
     status: "documentation_only",
   });
-  assert.deepEqual(result.map(({ id }) => id), ["quickbooks-community"]);
+  assert.deepEqual(result.map(({ id }) => id), ["quickbooks-community", "quickbooks-official"]);
 });
 
 test("authentication filtering uses explicit dataset classifications", () => {
@@ -36,7 +38,7 @@ test("authentication filtering uses explicit dataset classifications", () => {
   assert(!publicCandidates.some(({ id }) => id === "xero"));
   assert.deepEqual(
     filterCandidates(candidates, { auth: "mixed" }).map(({ id }) => id).sort(),
-    ["arcadia-finance", "octagon"],
+    ["arcadia-finance", "octagon", "vat-validator"],
   );
 });
 
@@ -70,7 +72,39 @@ test("every dashboard capability has a risk and evidence class", () => {
     assert(candidate.capabilities.length > 0, candidate.id);
     for (const capability of candidate.capabilities) {
       assert(["read_only", "state_changing", "mixed", "unknown"].includes(capability.risk));
-      assert(["runtime", "documentation"].includes(capability.evidence));
+      assert(["runtime", "repository", "documentation"].includes(capability.evidence));
     }
+  }
+});
+
+test("expanded inventory contains ten distinct source-backed additions", () => {
+  const additions = [
+    "paypal-agent-toolkit",
+    "plaid-sandbox",
+    "adyen",
+    "quickbooks-official",
+    "coinbase-agentkit",
+    "financial-datasets",
+    "actual-budget",
+    "invoice-express",
+    "vat-validator",
+    "pipeworx-banking-regulations",
+  ];
+  assert.equal(candidates.length, 22);
+  assert.equal(new Set(candidates.map(({ id }) => id)).size, 22);
+  assert.deepEqual(candidates.slice(-10).map(({ id }) => id), additions);
+  assert(candidates.slice(-10, -1).every(({ test: connection }) => connection.status === "documentation_only"));
+  assert.equal(candidates.at(-1).test.status, "verified");
+});
+
+test("material comparison fields have visible source mappings", () => {
+  const materialClaims = ["provider", "pricing", "authentication", "capabilities", "deployment model", "financial workflows", "limitations"];
+  for (const candidate of candidates) {
+    assert(candidate.deploymentModel, candidate.id);
+    assert(candidate.pricing, candidate.id);
+    assert(candidate.financialWorkflows.length > 0, candidate.id);
+    const supports = new Set(candidate.sources.flatMap((source) => source.supports));
+    for (const claim of materialClaims) assert(supports.has(claim), `${candidate.id}: ${claim}`);
+    assert(candidate.sources.every((source) => ["repository", "documentation"].includes(source.evidenceType)), candidate.id);
   }
 });
