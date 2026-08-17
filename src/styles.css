@@ -95,6 +95,7 @@ button, a { touch-action: manipulation; }
 .status-documentation_only, .evidence-documentation { color: #664b00; background: #f7e6a7; border-color: #c9ab4c; }
 .risk-mixed { color: #733600; background: #ffdcb1; border-color: #d39851; }
 .evidence-runtime { color: #064d39; background: #d8f1e5; border-color: #79b297; }
+.evidence-repository { color: #123f69; background: #dbeafb; border-color: #7fa4c9; }
 .kind-tool, .kind-resource, .kind-prompt { background: #e5ebf1; border-color: #9aabba; }
 .tag-row { display: flex; flex-wrap: wrap; gap: 0.4rem; }
 .tag-row span { padding: 0.25rem 0.4rem; background: #ecf0eb; font-size: 0.68rem; }
@@ -105,6 +106,7 @@ dd { margin: 0.25rem 0 0; overflow-wrap: anywhere; font-size: 0.78rem; line-heig
 .card-actions { display: flex; align-items: center; justify-content: space-between; gap: 1rem; font-size: 0.75rem; }
 .empty-state { padding: 5rem 1rem; text-align: center; border: 1px solid var(--line); }
 .empty-state .secondary { color: var(--ink); }
+.error-state { color: #6d2314; background: #fff0e8; border-color: #d48b70; }
 
 .coverage { background: #e5e9e2; }
 .table-scroll { overflow-x: auto; border: 1px solid #aeb8b1; }
@@ -152,7 +154,8 @@ footer a { color: var(--mint); }
 .detail-grid.lower li { margin-bottom: 0.7rem; line-height: 1.5; }
 .source-list { padding-left: 1.2rem; }
 .source-list li { margin-bottom: 1.2rem; }
-.source-list span, .source-list small { display: block; margin-top: 0.35rem; color: var(--muted); font-size: 0.72rem; }
+.source-list li > span, .source-list li > small { display: block; margin-top: 0.35rem; color: var(--muted); font-size: 0.72rem; }
+.source-list li > div { display: flex; flex-wrap: wrap; gap: 0.45rem; align-items: center; }
 .legend { padding-top: 2.5rem; }
 .legend p { line-height: 1.6; }
 

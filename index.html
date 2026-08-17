@@ -27,7 +27,7 @@
         <div>
           <p class="eyebrow">Independent technical research · August 2026</p>
           <h1 id="page-title">A field guide to finance MCP infrastructure.</h1>
-          <p class="lede">Connection evidence, capability risk, setup friction, and primary sources—without a leaderboard that hides the trade-offs.</p>
+          <p class="lede">A source-backed comparison of 22 finance MCP candidates across connection evidence, capability risk, deployment, authentication, pricing, and workflow fit—without a leaderboard that hides the trade-offs.</p>
           <div class="hero-actions">
             <a class="button primary" href="#inventory">Explore the inventory</a>
             <a class="button secondary" href="./docs/RESEARCH_METHOD.md">Read the method</a>
@@ -63,6 +63,13 @@
           <span><span class="badge status-stale">Stale</span> evidence aged or changed</span>
         </aside>
 
+        <aside class="status-legend evidence-legend" aria-labelledby="evidence-legend-title">
+          <strong id="evidence-legend-title">Claim provenance</strong>
+          <span><span class="badge evidence-runtime">Runtime</span> observed during a safe protocol probe</span>
+          <span><span class="badge evidence-repository">Repository</span> supported by source code or repository guidance</span>
+          <span><span class="badge evidence-documentation">Documentation</span> supported by provider or upstream documentation</span>
+        </aside>
+
         <form id="filters" class="filter-panel" aria-label="Filter MCP candidates">
           <label class="search-field">
             <span>Search</span>
@@ -85,6 +92,10 @@
           <strong>No candidates match those filters.</strong>
           <p>Clear one or more filters to broaden the comparison.</p>
           <button class="button secondary" type="button">Clear filters</button>
+        </div>
+        <div id="error-state" class="empty-state error-state" role="alert" hidden>
+          <strong>The inventory could not be rendered.</strong>
+          <p>Reload the page. If the problem persists, validate the dataset and report the error shown in the browser console.</p>
         </div>
       </section>
 
@@ -111,7 +122,7 @@
         <div class="method-copy">
           <p>Tests used isolated, credential-free starts or public hosted endpoints. They sent MCP initialize, then tools/list, resources/list, and prompts/list. Only explicitly allowlisted public reads were called. No payment, trade, transfer, refund, invoice, account mutation, signing, or broadcast tool was invoked.</p>
           <ul>
-            <li>Capability claims say whether they came from runtime evidence or documentation.</li>
+            <li>Capability claims distinguish runtime probes, repository evidence, and provider or upstream documentation.</li>
             <li>Blocked and failed are kept distinct from not tested.</li>
             <li>Unknown coverage remains unknown.</li>
           </ul>

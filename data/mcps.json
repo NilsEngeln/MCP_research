@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "generatedAt": "2026-08-10T10:40:00Z",
+  "generatedAt": "2026-08-14T14:16:23.230Z",
   "methodologyUrl": "../docs/RESEARCH_METHOD.md",
   "mcps": [
     {
@@ -17,6 +17,7 @@
       "commercialUse": "allowed",
       "transports": ["stdio", "streamable_http"],
       "installation": "Run npx -y @stripe/mcp with a restricted Stripe API key, or connect to https://mcp.stripe.com and authorize with OAuth.",
+      "deploymentModel": "Self-hosted local stdio with an optional Streamable HTTP deployment.",
       "runtime": ["Node.js 18+ for local stdio", "Hosted remote server available"],
       "authentication": ["Restricted Stripe API key (local)", "OAuth (hosted)"],
       "authenticationClass": "required",
@@ -25,10 +26,12 @@
       "institutions": ["Stripe accounts"],
       "markets": ["Online payments", "Billing", "Treasury when enabled"],
       "assetClasses": ["Fiat payments", "Account balances"],
+      "financialWorkflows": ["Payment and refund operations", "Billing and subscription support", "Stripe documentation search", "Treasury operations when separately enabled"],
+      "pricing": "No MCP-specific charge is documented; Stripe account and API pricing applies to enabled products.",
       "capabilities": [
-        {"name": "Stripe API tools", "kind": "tool", "summary": "Provider documentation describes Stripe API operations; exact enabled tools depend on restricted-key permissions.", "risk": "mixed", "evidence": "documentation"},
-        {"name": "search_stripe_documentation", "kind": "tool", "summary": "Searches Stripe documentation and support knowledge.", "risk": "read_only", "evidence": "documentation"},
-        {"name": "Treasury tools", "kind": "tool", "summary": "Optional tools can move money, pay bills, and create or manage cards; human approval is strongly recommended.", "risk": "state_changing", "evidence": "documentation"}
+        {"name": "Stripe API tools", "kind": "tool", "summary": "Provider documentation describes Stripe API operations; exact enabled tools depend on restricted-key permissions.", "risk": "mixed", "evidence": "repository"},
+        {"name": "search_stripe_documentation", "kind": "tool", "summary": "Searches Stripe documentation and support knowledge.", "risk": "read_only", "evidence": "repository"},
+        {"name": "Treasury tools", "kind": "tool", "summary": "Optional tools can move money, pay bills, and create or manage cards; human approval is strongly recommended.", "risk": "state_changing", "evidence": "repository"}
       ],
       "readWriteRisk": "mixed",
       "maintenanceStatus": "active",
@@ -36,10 +39,10 @@
       "limitations": ["Initialization is blocked without a Stripe key or OAuth authorization.", "Tool visibility is permission-dependent.", "Treasury and payment tools can change financial state and were not invoked."],
       "test": {"status": "blocked", "testedAt": "2026-08-10T10:35:13.851Z", "versionOrCommit": "0.3.3", "transport": "stdio", "initialize": "failed", "toolsList": "not_attempted", "resourcesList": "not_attempted", "promptsList": "not_attempted", "readCall": "not_attempted", "evidencePath": "../research/evidence/stripe.json", "notes": "Package started without credentials and exited before initialization with an explicit API-key requirement. No credentials were supplied."},
       "sources": [
-        {"title": "Stripe MCP documentation", "url": "https://docs.stripe.com/mcp", "accessedAt": "2026-08-10T10:30:00Z", "supports": ["hosted endpoint", "OAuth", "tool permission model", "knowledge search", "Treasury write-risk warning"]},
-        {"title": "Stripe AI MCP source and package instructions", "url": "https://github.com/stripe/ai/tree/main/tools/modelcontextprotocol", "accessedAt": "2026-08-10T10:30:00Z", "supports": ["official maintainer", "MIT license", "Node runtime", "stdio installation", "restricted API key requirement"]}
+        {"title": "Stripe MCP documentation", "url": "https://docs.stripe.com/mcp", "accessedAt": "2026-08-14T13:48:58Z", "supports": ["hosted endpoint", "OAuth", "tool permission model", "knowledge search", "Treasury write-risk warning"], "evidenceType": "documentation"},
+        {"title": "Stripe AI MCP source and package instructions", "url": "https://github.com/stripe/ai/tree/main/tools/modelcontextprotocol", "accessedAt": "2026-08-14T13:48:58Z", "supports": ["official maintainer", "MIT license", "Node runtime", "stdio installation", "restricted API key requirement", "provider", "authentication", "capabilities", "deployment model", "financial workflows", "limitations", "pricing"], "evidenceType": "repository"}
       ],
-      "verifiedAt": "2026-08-10T10:35:13.851Z"
+      "verifiedAt": "2026-08-14T13:48:58Z"
     },
     {
       "id": "xero",
@@ -55,6 +58,7 @@
       "commercialUse": "allowed",
       "transports": ["stdio"],
       "installation": "Run npx -y @xeroapi/xero-mcp-server@latest with a configured Xero OAuth application.",
+      "deploymentModel": "Self-hosted local stdio process launched by the MCP client.",
       "runtime": ["Node.js 18+"],
       "authentication": ["Xero OAuth 2.0 custom connection", "Client ID and client secret", "Configurable accounting scopes"],
       "authenticationClass": "required",
@@ -63,10 +67,12 @@
       "institutions": ["Xero organizations", "Xero Demo Company supported for development"],
       "markets": ["Small-business accounting"],
       "assetClasses": ["Invoices", "Contacts", "Ledger accounts"],
+      "financialWorkflows": ["Contact and chart-of-accounts management", "Invoice lifecycle management", "Accounting record retrieval"],
+      "pricing": "No MCP-specific charge is documented; a Xero organization and developer application are required.",
       "capabilities": [
-        {"name": "contact management", "kind": "tool", "summary": "Reads and manages Xero contacts; exact tool names were not runtime-discovered.", "risk": "mixed", "evidence": "documentation"},
-        {"name": "chart of accounts management", "kind": "tool", "summary": "Reads and manages chart-of-accounts records.", "risk": "mixed", "evidence": "documentation"},
-        {"name": "invoice management", "kind": "tool", "summary": "Creates and manages invoices, which can alter accounting state.", "risk": "state_changing", "evidence": "documentation"}
+        {"name": "contact management", "kind": "tool", "summary": "Reads and manages Xero contacts; exact tool names were not runtime-discovered.", "risk": "mixed", "evidence": "repository"},
+        {"name": "chart of accounts management", "kind": "tool", "summary": "Reads and manages chart-of-accounts records.", "risk": "mixed", "evidence": "repository"},
+        {"name": "invoice management", "kind": "tool", "summary": "Creates and manages invoices, which can alter accounting state.", "risk": "state_changing", "evidence": "repository"}
       ],
       "readWriteRisk": "mixed",
       "maintenanceStatus": "active",
@@ -74,10 +80,10 @@
       "limitations": ["Server validates required environment variables before MCP initialization.", "A Xero developer account and organization are required.", "Exact capability list remains documentation-derived because no test credentials were used."],
       "test": {"status": "blocked", "testedAt": "2026-08-10T10:38:19.644Z", "versionOrCommit": "0.0.17", "transport": "stdio", "initialize": "failed", "toolsList": "not_attempted", "resourcesList": "not_attempted", "promptsList": "not_attempted", "readCall": "not_attempted", "evidencePath": "../research/evidence/xero.json", "notes": "The package exited before initialization because Xero OAuth environment variables were intentionally absent."},
       "sources": [
-        {"title": "Xero MCP Server repository", "url": "https://github.com/XeroAPI/xero-mcp-server", "accessedAt": "2026-08-10T10:30:00Z", "supports": ["official maintainer", "MIT license", "features", "OAuth modes and scopes", "runtime", "demo-company guidance", "stdio setup"]},
-        {"title": "Xero developer documentation", "url": "https://developer.xero.com/documentation/api/", "accessedAt": "2026-08-10T10:30:00Z", "supports": ["upstream Xero API", "accounting domain"]}
+        {"title": "Xero MCP Server repository", "url": "https://github.com/XeroAPI/xero-mcp-server", "accessedAt": "2026-08-14T13:48:58Z", "supports": ["official maintainer", "MIT license", "features", "OAuth modes and scopes", "runtime", "demo-company guidance", "stdio setup", "provider", "authentication", "capabilities", "deployment model", "financial workflows", "limitations"], "evidenceType": "repository"},
+        {"title": "Xero developer documentation", "url": "https://developer.xero.com/documentation/api/", "accessedAt": "2026-08-14T13:48:58Z", "supports": ["upstream Xero API", "accounting domain", "pricing"], "evidenceType": "documentation"}
       ],
-      "verifiedAt": "2026-08-10T10:38:19.644Z"
+      "verifiedAt": "2026-08-14T13:48:58Z"
     },
     {
       "id": "saldo",
@@ -93,6 +99,7 @@
       "commercialUse": "allowed",
       "transports": ["stdio", "streamable_http"],
       "installation": "Run npx saldo-mcp init, configure an Enable Banking restricted application, link a bank with BankID, sync, then register the MCP client.",
+      "deploymentModel": "Self-hosted local stdio with an optional Streamable HTTP deployment.",
       "runtime": ["Node.js 24+", "Local SQLite cache"],
       "authentication": ["Enable Banking application ID and private-key path", "Bank consent via BankID"],
       "authenticationClass": "required",
@@ -101,12 +108,14 @@
       "institutions": ["Linked Nordic banks; exact list discoverable with the institutions command"],
       "markets": ["Consumer bank accounts"],
       "assetClasses": ["Cash balances", "Bank transactions"],
+      "financialWorkflows": ["Bank balance and transaction review", "Spending categorization", "Local transaction labeling"],
+      "pricing": "Self-hosting is documented as free; optional managed Saldo tiers are published separately.",
       "capabilities": [
-        {"name": "get_balances", "kind": "tool", "summary": "Reads cached balances for linked bank accounts.", "risk": "read_only", "evidence": "documentation"},
-        {"name": "get_transactions", "kind": "tool", "summary": "Reads transactions with date, amount, and account filters.", "risk": "read_only", "evidence": "documentation"},
-        {"name": "spending_by_category", "kind": "tool", "summary": "Summarizes spending by local labels or counterparty.", "risk": "read_only", "evidence": "documentation"},
-        {"name": "set_transaction_labels", "kind": "tool", "summary": "Writes category labels only to the encrypted local cache; it cannot modify the bank.", "risk": "state_changing", "evidence": "documentation"},
-        {"name": "label-transactions", "kind": "prompt", "summary": "Guides local transaction labeling.", "risk": "read_only", "evidence": "documentation"}
+        {"name": "get_balances", "kind": "tool", "summary": "Reads cached balances for linked bank accounts.", "risk": "read_only", "evidence": "repository"},
+        {"name": "get_transactions", "kind": "tool", "summary": "Reads transactions with date, amount, and account filters.", "risk": "read_only", "evidence": "repository"},
+        {"name": "spending_by_category", "kind": "tool", "summary": "Summarizes spending by local labels or counterparty.", "risk": "read_only", "evidence": "repository"},
+        {"name": "set_transaction_labels", "kind": "tool", "summary": "Writes category labels only to the encrypted local cache; it cannot modify the bank.", "risk": "state_changing", "evidence": "repository"},
+        {"name": "label-transactions", "kind": "prompt", "summary": "Guides local transaction labeling.", "risk": "read_only", "evidence": "repository"}
       ],
       "readWriteRisk": "mixed",
       "maintenanceStatus": "active",
@@ -114,10 +123,11 @@
       "limitations": ["Requires a Nordic bank account and user-mediated bank consent.", "Payment initiation is explicitly absent, but local labels are mutable.", "No runtime attempt was made because account linking requires an external bank identity and private key."],
       "test": {"status": "documentation_only", "testedAt": null, "versionOrCommit": "0.2.0", "transport": "stdio", "initialize": "not_attempted", "toolsList": "not_attempted", "resourcesList": "not_attempted", "promptsList": "not_attempted", "readCall": "not_attempted", "evidencePath": null, "notes": "Not started: setup requires a real Nordic bank identity and Enable Banking application material, which are outside the safe test boundary."},
       "sources": [
-        {"title": "Saldo MCP repository", "url": "https://github.com/pixby/saldo-mcp", "accessedAt": "2026-08-10T10:30:00Z", "supports": ["maintainer", "license", "read-only bank design", "local-label exception", "tools", "transports", "encryption", "runtime", "Enable Banking and BankID setup"]},
-        {"title": "Saldo product documentation", "url": "https://saldo.sh", "accessedAt": "2026-08-10T10:30:00Z", "supports": ["Nordic product scope", "managed and self-hosted positioning"]}
+        {"title": "Saldo MCP repository", "url": "https://github.com/pixby/saldo-mcp", "accessedAt": "2026-08-14T13:48:58Z", "supports": ["maintainer", "license", "read-only bank design", "local-label exception", "tools", "transports", "encryption", "runtime", "Enable Banking and BankID setup", "provider", "authentication", "capabilities", "deployment model", "financial workflows", "limitations"], "evidenceType": "repository"},
+        {"title": "Saldo product documentation", "url": "https://saldo.sh", "accessedAt": "2026-08-14T13:48:58Z", "supports": ["Nordic product scope", "managed and self-hosted positioning", "pricing"], "evidenceType": "documentation"},
+        {"title": "Saldo pricing", "url": "https://saldo.sh/pricing.html", "accessedAt": "2026-08-14T13:48:58Z", "evidenceType": "documentation", "supports": ["pricing", "managed tier availability"]}
       ],
-      "verifiedAt": "2026-08-10T10:30:00Z"
+      "verifiedAt": "2026-08-14T13:48:58Z"
     },
     {
       "id": "yahoo-finance",
@@ -133,6 +143,7 @@
       "commercialUse": "allowed",
       "transports": ["stdio"],
       "installation": "Run npx -y yahoo-finance-mcp-server; the wrapper creates a Python environment on first launch.",
+      "deploymentModel": "Self-hosted local stdio process launched by the MCP client.",
       "runtime": ["Node.js 16+", "Python 3.10+", "Python venv with yfinance, curl_cffi, pandas, tabulate, mcp, pydantic, and httpx"],
       "authentication": ["No API key documented"],
       "authenticationClass": "none",
@@ -141,12 +152,14 @@
       "institutions": ["Public issuers and exchanges represented by Yahoo Finance"],
       "markets": ["Equities", "Options", "Market news"],
       "assetClasses": ["Stocks", "Equity options", "Dividends"],
+      "financialWorkflows": ["Quote and historical-price research", "Fundamental and analyst research", "Equity comparison and options research"],
+      "pricing": "The community server is MIT-licensed and documents no MCP fee; upstream availability and rate limits still apply.",
       "capabilities": [
-        {"name": "get_stock_quote", "kind": "tool", "summary": "Current quote and valuation snapshot; parameter: ticker.", "risk": "read_only", "evidence": "documentation"},
-        {"name": "get_historical_prices", "kind": "tool", "summary": "OHLCV history; parameters include ticker, period, and interval.", "risk": "read_only", "evidence": "documentation"},
-        {"name": "get_financial_statements", "kind": "tool", "summary": "Annual income statement, balance sheet, and cash flow for a ticker.", "risk": "read_only", "evidence": "documentation"},
-        {"name": "compare_stocks", "kind": "tool", "summary": "Compares metrics for 2–10 ticker symbols.", "risk": "read_only", "evidence": "documentation"},
-        {"name": "get_options_chain", "kind": "tool", "summary": "Lists expirations or call/put chains by ticker and expiration date.", "risk": "read_only", "evidence": "documentation"}
+        {"name": "get_stock_quote", "kind": "tool", "summary": "Current quote and valuation snapshot; parameter: ticker.", "risk": "read_only", "evidence": "repository"},
+        {"name": "get_historical_prices", "kind": "tool", "summary": "OHLCV history; parameters include ticker, period, and interval.", "risk": "read_only", "evidence": "repository"},
+        {"name": "get_financial_statements", "kind": "tool", "summary": "Annual income statement, balance sheet, and cash flow for a ticker.", "risk": "read_only", "evidence": "repository"},
+        {"name": "compare_stocks", "kind": "tool", "summary": "Compares metrics for 2–10 ticker symbols.", "risk": "read_only", "evidence": "repository"},
+        {"name": "get_options_chain", "kind": "tool", "summary": "Lists expirations or call/put chains by ticker and expiration date.", "risk": "read_only", "evidence": "repository"}
       ],
       "readWriteRisk": "read_only",
       "maintenanceStatus": "active",
@@ -154,10 +167,10 @@
       "limitations": ["Community adapter, not an official Yahoo product.", "Upstream availability and rate limits are outside the server's control.", "The connection attempt failed because the host lacked python3.12-venv/ensurepip; no elevated package installation was attempted."],
       "test": {"status": "failed", "testedAt": "2026-08-10T10:34:45.369Z", "versionOrCommit": "1.2.5", "transport": "stdio", "initialize": "failed", "toolsList": "not_attempted", "resourcesList": "not_attempted", "promptsList": "not_attempted", "readCall": "not_attempted", "evidencePath": "../research/evidence/yahoo-finance.json", "notes": "The npx launcher selected Python 3.12 but could not create its isolated environment because ensurepip/python3.12-venv was unavailable."},
       "sources": [
-        {"title": "Yahoo Finance MCP repository", "url": "https://github.com/danishashko/yahoo-finance-mcp", "accessedAt": "2026-08-10T10:30:00Z", "supports": ["community maintainer", "MIT license", "runtime", "installation", "tool names and parameters", "no-key setup", "upstream and rate-limit caveat"]},
-        {"title": "Yahoo Finance MCP npm package", "url": "https://www.npmjs.com/package/yahoo-finance-mcp-server", "accessedAt": "2026-08-10T10:30:00Z", "supports": ["version", "release freshness", "distribution"]}
+        {"title": "Yahoo Finance MCP repository", "url": "https://github.com/danishashko/yahoo-finance-mcp", "accessedAt": "2026-08-14T13:48:58Z", "supports": ["community maintainer", "MIT license", "runtime", "installation", "tool names and parameters", "no-key setup", "upstream and rate-limit caveat", "provider", "authentication", "capabilities", "deployment model", "financial workflows", "limitations"], "evidenceType": "repository"},
+        {"title": "Yahoo Finance MCP npm package", "url": "https://www.npmjs.com/package/yahoo-finance-mcp-server", "accessedAt": "2026-08-14T13:48:58Z", "supports": ["version", "release freshness", "distribution", "pricing"], "evidenceType": "documentation"}
       ],
-      "verifiedAt": "2026-08-10T10:34:45.369Z"
+      "verifiedAt": "2026-08-14T13:48:58Z"
     },
     {
       "id": "octagon",
@@ -173,6 +186,7 @@
       "commercialUse": "allowed",
       "transports": ["stdio"],
       "installation": "Run npx -y octagon-mcp with OCTAGON_API_KEY for finance agents; documentation tools work without the key.",
+      "deploymentModel": "Self-hosted local stdio process launched by the MCP client.",
       "runtime": ["Node.js 18+"],
       "authentication": ["Octagon API key for research agents", "No key required for documentation tools"],
       "authenticationClass": "mixed",
@@ -181,6 +195,8 @@
       "institutions": ["Public issuers", "Private companies", "Prediction markets"],
       "markets": ["Public markets", "Private markets", "Prediction markets"],
       "assetClasses": ["Equities", "Crypto market data", "Prediction contracts"],
+      "financialWorkflows": ["Public and private market research", "Filings and financial research", "Prediction-market research"],
+      "pricing": "A free account is documented for API-key creation; paid API pricing was not established in this snapshot.",
       "capabilities": [
         {"name": "octagon-agent", "kind": "tool", "summary": "Market-intelligence agent using prompt plus optional conversation controls.", "risk": "read_only", "evidence": "runtime"},
         {"name": "octagon-deep-research-agent", "kind": "tool", "summary": "Multi-source investment-research agent.", "risk": "read_only", "evidence": "runtime"},
@@ -195,10 +211,10 @@
       "limitations": ["Financial research agents require an Octagon API key.", "Exact provider coverage and commercial API quotas were not tested.", "Runtime read validation was limited to the keyless documentation catalog."],
       "test": {"status": "verified", "testedAt": "2026-08-10T10:37:50.061Z", "versionOrCommit": "1.2.0", "transport": "stdio", "initialize": "passed", "toolsList": "passed", "resourcesList": "passed", "promptsList": "unsupported", "readCall": "passed", "evidencePath": "../research/evidence/octagon.json", "notes": "Negotiated MCP 2025-11-25; discovered 8 tools and 63 resources. A harmless octagon-docs-list call passed without an API key."},
       "sources": [
-        {"title": "Octagon MCP Server repository", "url": "https://github.com/OctagonAI/octagon-mcp-server", "accessedAt": "2026-08-10T10:30:00Z", "supports": ["official maintainer", "MIT license", "runtime and install", "API key boundary", "agent and documentation tools", "tool parameters", "resource URIs"]},
-        {"title": "Octagon documentation", "url": "https://octagonai.co/docs", "accessedAt": "2026-08-10T10:30:00Z", "supports": ["market-research product scope", "API documentation"]}
+        {"title": "Octagon MCP Server repository", "url": "https://github.com/OctagonAI/octagon-mcp-server", "accessedAt": "2026-08-14T13:48:58Z", "supports": ["official maintainer", "MIT license", "runtime and install", "API key boundary", "agent and documentation tools", "tool parameters", "resource URIs", "provider", "authentication", "capabilities", "deployment model", "financial workflows", "limitations"], "evidenceType": "repository"},
+        {"title": "Octagon documentation", "url": "https://octagonai.co/docs", "accessedAt": "2026-08-14T13:48:58Z", "supports": ["market-research product scope", "API documentation", "pricing"], "evidenceType": "documentation"}
       ],
-      "verifiedAt": "2026-08-10T10:37:50.061Z"
+      "verifiedAt": "2026-08-14T13:48:58Z"
     },
     {
       "id": "pipeworx-edgar",
@@ -214,6 +230,7 @@
       "commercialUse": "allowed",
       "transports": ["streamable_http"],
       "installation": "Connect an MCP client to https://gateway.pipeworx.io/edgar/mcp; no local install is required.",
+      "deploymentModel": "Provider-hosted Streamable HTTP endpoint.",
       "runtime": ["Hosted Pipeworx gateway"],
       "authentication": ["Anonymous access succeeded during test; provider limits may apply"],
       "authenticationClass": "none",
@@ -222,6 +239,8 @@
       "institutions": ["SEC registrants", "Investment managers", "Registered funds"],
       "markets": ["U.S. public securities filings"],
       "assetClasses": ["Equities", "Funds", "Corporate disclosures"],
+      "financialWorkflows": ["SEC filing search", "Issuer XBRL analysis", "Insider-transaction and fund-holding research"],
+      "pricing": "The repository describes SEC EDGAR as free public data; Pipeworx gateway plan limits are published separately.",
       "capabilities": [
         {"name": "edgar_search_filings", "kind": "tool", "summary": "Searches public filings by query and filing metadata.", "risk": "read_only", "evidence": "runtime"},
         {"name": "edgar_company_filings", "kind": "tool", "summary": "Lists filings for a CIK.", "risk": "read_only", "evidence": "runtime"},
@@ -237,10 +256,10 @@
       "limitations": ["The endpoint exposes shared Pipeworx gateway tools and prompts in addition to EDGAR-specific tools.", "Pipeworx caching means filings may lag SEC submission by minutes.", "XBRL concept names can drift between issuers and periods."],
       "test": {"status": "verified", "testedAt": "2026-08-10T10:37:04.843Z", "versionOrCommit": "0.3.2", "transport": "streamable_http", "initialize": "passed", "toolsList": "passed", "resourcesList": "passed", "promptsList": "passed", "readCall": "passed", "evidencePath": "../research/evidence/pipeworx-edgar.json", "notes": "Negotiated MCP 2025-03-26; discovered 43 tools, 0 resources, and 12 prompts. A public ticker-to-CIK lookup passed and its payload was not retained."},
       "sources": [
-        {"title": "Pipeworx SEC EDGAR MCP repository", "url": "https://github.com/pipeworx-io/mcp-edgar", "accessedAt": "2026-08-10T10:30:00Z", "supports": ["maintainer", "MIT license", "hosted endpoint", "SEC upstream", "filing workflows", "caching and concept-drift limitations"]},
-        {"title": "SEC EDGAR APIs", "url": "https://www.sec.gov/search-filings/edgar-application-programming-interfaces", "accessedAt": "2026-08-10T10:30:00Z", "supports": ["authoritative public upstream", "U.S. regulatory scope"]}
+        {"title": "Pipeworx SEC EDGAR MCP repository", "url": "https://github.com/pipeworx-io/mcp-edgar", "accessedAt": "2026-08-14T13:48:58Z", "supports": ["maintainer", "MIT license", "hosted endpoint", "SEC upstream", "filing workflows", "caching and concept-drift limitations", "provider", "authentication", "capabilities", "deployment model", "financial workflows", "limitations"], "evidenceType": "repository"},
+        {"title": "SEC EDGAR APIs", "url": "https://www.sec.gov/search-filings/edgar-application-programming-interfaces", "accessedAt": "2026-08-14T13:48:58Z", "supports": ["authoritative public upstream", "U.S. regulatory scope", "pricing"], "evidenceType": "documentation"}
       ],
-      "verifiedAt": "2026-08-10T10:37:04.843Z"
+      "verifiedAt": "2026-08-14T13:48:58Z"
     },
     {
       "id": "coincap-crypto",
@@ -256,6 +275,7 @@
       "commercialUse": "allowed",
       "transports": ["stdio", "streamable_http"],
       "installation": "Run npx -y mcp-crypto-price with COINCAP_API_KEY, or build the Streamable HTTP entry point from source.",
+      "deploymentModel": "Self-hosted local stdio with an optional Streamable HTTP deployment.",
       "runtime": ["Node.js 22.14+"],
       "authentication": ["CoinCap v3 API key"],
       "authenticationClass": "required",
@@ -264,12 +284,14 @@
       "institutions": ["Crypto exchanges represented by CoinCap"],
       "markets": ["Cryptocurrency spot markets"],
       "assetClasses": ["Cryptocurrencies", "Fiat conversion rates"],
+      "financialWorkflows": ["Crypto price monitoring", "Market comparison and conversion", "Exchange and asset research"],
+      "pricing": "A CoinCap API key is required and the repository documents an upstream free tier; higher-tier pricing was not restated.",
       "capabilities": [
-        {"name": "price-get", "kind": "tool", "summary": "Gets current price and 24-hour statistics by crypto symbol.", "risk": "read_only", "evidence": "documentation"},
-        {"name": "price-convert", "kind": "tool", "summary": "Converts an amount by symbol and target fiat currency.", "risk": "read_only", "evidence": "documentation"},
-        {"name": "market-global", "kind": "tool", "summary": "Returns total market cap, volume, active asset count, and dominance.", "risk": "read_only", "evidence": "documentation"},
-        {"name": "assets-compare", "kind": "tool", "summary": "Compares two to five comma-separated cryptocurrency symbols.", "risk": "read_only", "evidence": "documentation"},
-        {"name": "asset://{symbol}", "kind": "resource", "summary": "Resource template for asset data.", "risk": "read_only", "evidence": "documentation"}
+        {"name": "price-get", "kind": "tool", "summary": "Gets current price and 24-hour statistics by crypto symbol.", "risk": "read_only", "evidence": "repository"},
+        {"name": "price-convert", "kind": "tool", "summary": "Converts an amount by symbol and target fiat currency.", "risk": "read_only", "evidence": "repository"},
+        {"name": "market-global", "kind": "tool", "summary": "Returns total market cap, volume, active asset count, and dominance.", "risk": "read_only", "evidence": "repository"},
+        {"name": "assets-compare", "kind": "tool", "summary": "Compares two to five comma-separated cryptocurrency symbols.", "risk": "read_only", "evidence": "repository"},
+        {"name": "asset://{symbol}", "kind": "resource", "summary": "Resource template for asset data.", "risk": "read_only", "evidence": "repository"}
       ],
       "readWriteRisk": "read_only",
       "maintenanceStatus": "active",
@@ -277,10 +299,10 @@
       "limitations": ["CoinCap v3 requires an API key even for startup.", "Community adapter, not maintained by CoinCap.", "No runtime capabilities were discovered because the key requirement is checked before initialization."],
       "test": {"status": "blocked", "testedAt": "2026-08-10T10:34:59.355Z", "versionOrCommit": "5.1.0", "transport": "stdio", "initialize": "failed", "toolsList": "not_attempted", "resourcesList": "not_attempted", "promptsList": "not_attempted", "readCall": "not_attempted", "evidencePath": "../research/evidence/coincap-crypto.json", "notes": "The server exited before initialization with an explicit COINCAP_API_KEY requirement. No key was supplied."},
       "sources": [
-        {"title": "CoinCap Crypto Price MCP repository", "url": "https://github.com/truss44/mcp-crypto-price", "accessedAt": "2026-08-10T10:30:00Z", "supports": ["community maintainer", "MIT license", "runtime", "transports", "CoinCap v3 key requirement", "tool names and parameters", "resource template"]},
-        {"title": "CoinCap API", "url": "https://pro.coincap.io/api-docs", "accessedAt": "2026-08-10T10:30:00Z", "supports": ["upstream provider", "API-key access"]}
+        {"title": "CoinCap Crypto Price MCP repository", "url": "https://github.com/truss44/mcp-crypto-price", "accessedAt": "2026-08-14T13:48:58Z", "supports": ["community maintainer", "MIT license", "runtime", "transports", "CoinCap v3 key requirement", "tool names and parameters", "resource template", "provider", "authentication", "capabilities", "deployment model", "financial workflows", "limitations"], "evidenceType": "repository"},
+        {"title": "CoinCap API", "url": "https://pro.coincap.io/api-docs", "accessedAt": "2026-08-14T13:48:58Z", "supports": ["upstream provider", "API-key access", "pricing"], "evidenceType": "documentation"}
       ],
-      "verifiedAt": "2026-08-10T10:34:59.355Z"
+      "verifiedAt": "2026-08-14T13:48:58Z"
     },
     {
       "id": "easy-finance",
@@ -296,6 +318,7 @@
       "commercialUse": "allowed",
       "transports": ["stdio", "streamable_http"],
       "installation": "Run npx @easysolutions906/mcp-finance; set PORT to expose Streamable HTTP on /mcp.",
+      "deploymentModel": "Self-hosted local stdio with an optional Streamable HTTP deployment.",
       "runtime": ["Node.js 18+"],
       "authentication": ["None documented or required during test"],
       "authenticationClass": "none",
@@ -304,6 +327,8 @@
       "institutions": ["European Central Bank via Frankfurter"],
       "markets": ["Foreign exchange reference rates"],
       "assetClasses": ["Fiat currencies"],
+      "financialWorkflows": ["Currency conversion", "Current and historical reference-rate lookup"],
+      "pricing": "No MCP-specific charge is documented; Frankfurter is a public reference-rate API.",
       "capabilities": [
         {"name": "currency_convert", "kind": "tool", "summary": "Converts an amount between supported currency codes.", "risk": "read_only", "evidence": "runtime"},
         {"name": "currency_rates", "kind": "tool", "summary": "Lists current rates for a base currency.", "risk": "read_only", "evidence": "runtime"},
@@ -316,10 +341,10 @@
       "limitations": ["No canonical public source repository is linked from the package registry.", "Reference rates are not executable trading quotes.", "Resources and prompts are unsupported."],
       "test": {"status": "verified", "testedAt": "2026-08-10T10:37:02.330Z", "versionOrCommit": "1.1.3", "transport": "stdio", "initialize": "passed", "toolsList": "passed", "resourcesList": "unsupported", "promptsList": "unsupported", "readCall": "passed", "evidencePath": "../research/evidence/easy-finance.json", "notes": "Negotiated MCP 2025-11-25; discovered four tools. currency_list passed, and no payload values were retained."},
       "sources": [
-        {"title": "MCP Finance npm package", "url": "https://www.npmjs.com/package/@easysolutions906/mcp-finance", "accessedAt": "2026-08-10T10:30:00Z", "supports": ["maintainer handle", "version", "MIT license", "runtime", "installation", "transports", "four tools", "Frankfurter and ECB upstream"]},
-        {"title": "Frankfurter API documentation", "url": "https://frankfurter.dev/", "accessedAt": "2026-08-10T10:30:00Z", "supports": ["public upstream", "ECB reference-rate basis", "currency and historical endpoints"]}
+        {"title": "MCP Finance npm package", "url": "https://www.npmjs.com/package/@easysolutions906/mcp-finance", "accessedAt": "2026-08-14T13:48:58Z", "supports": ["maintainer handle", "version", "MIT license", "runtime", "installation", "transports", "four tools", "Frankfurter and ECB upstream", "provider", "authentication", "capabilities", "deployment model", "financial workflows", "limitations"], "evidenceType": "documentation"},
+        {"title": "Frankfurter API documentation", "url": "https://frankfurter.dev/", "accessedAt": "2026-08-14T13:48:58Z", "supports": ["public upstream", "ECB reference-rate basis", "currency and historical endpoints", "pricing"], "evidenceType": "documentation"}
       ],
-      "verifiedAt": "2026-08-10T10:37:02.330Z"
+      "verifiedAt": "2026-08-14T13:48:58Z"
     },
     {
       "id": "arcadia-finance",
@@ -335,6 +360,7 @@
       "commercialUse": "allowed",
       "transports": ["stdio"],
       "installation": "Install or run @arcadia-finance/mcp-server with Node.js; public read tools need no wallet credential.",
+      "deploymentModel": "Self-hosted local stdio process launched by the MCP client.",
       "runtime": ["Node.js 22+"],
       "authentication": ["No credential required for public reads", "Wallet signer required to execute unsigned transactions", "PK environment variable enables the dangerous dev.send tool"],
       "authenticationClass": "mixed",
@@ -343,6 +369,8 @@
       "institutions": ["Arcadia lending pools", "Arcadia accounts"],
       "markets": ["DeFi lending", "Concentrated liquidity"],
       "assetClasses": ["ERC-20 tokens", "LP positions", "Lending shares"],
+      "financialWorkflows": ["DeFi position and pool research", "Yield-strategy discovery", "Unsigned transaction construction"],
+      "pricing": "No MCP-specific charge is documented in the cited repository; the server is AGPL-3.0 licensed.",
       "capabilities": [
         {"name": "read.asset.list", "kind": "tool", "summary": "Lists supported collateral assets and metadata.", "risk": "read_only", "evidence": "runtime"},
         {"name": "read.pool.list", "kind": "tool", "summary": "Lists pools with TVL, APY, utilization, and liquidity.", "risk": "read_only", "evidence": "runtime"},
@@ -359,10 +387,10 @@
       "limitations": ["The server exposes 17 transaction-building write tools plus dev.send alongside reads.", "Unsigned output still creates substantial downstream signing risk.", "Network and protocol scope is limited to Arcadia-supported chains and integrations."],
       "test": {"status": "verified", "testedAt": "2026-08-10T10:38:02.263Z", "versionOrCommit": "0.5.0", "transport": "stdio", "initialize": "passed", "toolsList": "passed", "resourcesList": "passed", "promptsList": "passed", "readCall": "passed", "evidencePath": "../research/evidence/arcadia-finance.json", "notes": "Negotiated MCP 2025-11-25; discovered 35 tools, 4 resources, and 3 prompts. A public read.asset.list call passed. No write tool or signer was invoked."},
       "sources": [
-        {"title": "Arcadia Finance MCP repository", "url": "https://github.com/arcadia-finance/mcp-server", "accessedAt": "2026-08-10T10:30:00Z", "supports": ["official maintainer", "AGPL license", "runtime and install", "chains and protocols", "read/write tool catalog", "unsigned transaction model", "dev.send private-key risk"]},
-        {"title": "Arcadia Finance", "url": "https://arcadia.finance", "accessedAt": "2026-08-10T10:30:00Z", "supports": ["provider identity", "DeFi product scope"]}
+        {"title": "Arcadia Finance MCP repository", "url": "https://github.com/arcadia-finance/mcp-server", "accessedAt": "2026-08-14T13:48:58Z", "supports": ["official maintainer", "AGPL license", "runtime and install", "chains and protocols", "read/write tool catalog", "unsigned transaction model", "dev.send private-key risk", "provider", "authentication", "capabilities", "deployment model", "financial workflows", "limitations"], "evidenceType": "repository"},
+        {"title": "Arcadia Finance", "url": "https://arcadia.finance", "accessedAt": "2026-08-14T13:48:58Z", "supports": ["provider identity", "DeFi product scope", "pricing"], "evidenceType": "documentation"}
       ],
-      "verifiedAt": "2026-08-10T10:38:02.263Z"
+      "verifiedAt": "2026-08-14T13:48:58Z"
     },
     {
       "id": "quickbooks-community",
@@ -378,6 +406,7 @@
       "commercialUse": "allowed",
       "transports": ["stdio"],
       "installation": "Run npx quickbooks-mcp after creating an Intuit developer app and completing OAuth setup.",
+      "deploymentModel": "Self-hosted local stdio process launched by the MCP client.",
       "runtime": ["Node.js 18+", "Optional AWS Secrets Manager mode"],
       "authentication": ["Intuit OAuth 2.0", "Client ID and secret", "Refresh token and realm ID after authorization"],
       "authenticationClass": "required",
@@ -386,24 +415,26 @@
       "institutions": ["QuickBooks Online companies"],
       "markets": ["Small-business accounting", "Bookkeeping"],
       "assetClasses": ["Ledger accounts", "Invoices", "Bills", "Expenses", "Journal entries"],
+      "financialWorkflows": ["Financial reporting", "Ledger query and investigation", "Journal, bill-payment, and entity management"],
+      "pricing": "The server is MIT-licensed; a QuickBooks Online company and Intuit application are required, with no MCP-specific fee documented.",
       "capabilities": [
-        {"name": "query", "kind": "tool", "summary": "Runs QuickBooks SQL-like entity queries.", "risk": "read_only", "evidence": "documentation"},
-        {"name": "get_profit_loss", "kind": "tool", "summary": "Returns P&L with optional month, department, or class breakdowns.", "risk": "read_only", "evidence": "documentation"},
-        {"name": "get_balance_sheet", "kind": "tool", "summary": "Returns a balance-sheet report.", "risk": "read_only", "evidence": "documentation"},
-        {"name": "create_journal_entry", "kind": "tool", "summary": "Creates a balanced journal entry.", "risk": "state_changing", "evidence": "documentation"},
-        {"name": "create_bill_payment", "kind": "tool", "summary": "Pays bills and applies vendor credits.", "risk": "state_changing", "evidence": "documentation"},
-        {"name": "delete_entity", "kind": "tool", "summary": "Deletes supported QuickBooks transactions.", "risk": "state_changing", "evidence": "documentation"}
+        {"name": "query", "kind": "tool", "summary": "Runs QuickBooks SQL-like entity queries.", "risk": "read_only", "evidence": "repository"},
+        {"name": "get_profit_loss", "kind": "tool", "summary": "Returns P&L with optional month, department, or class breakdowns.", "risk": "read_only", "evidence": "repository"},
+        {"name": "get_balance_sheet", "kind": "tool", "summary": "Returns a balance-sheet report.", "risk": "read_only", "evidence": "repository"},
+        {"name": "create_journal_entry", "kind": "tool", "summary": "Creates a balanced journal entry.", "risk": "state_changing", "evidence": "repository"},
+        {"name": "create_bill_payment", "kind": "tool", "summary": "Pays bills and applies vendor credits.", "risk": "state_changing", "evidence": "repository"},
+        {"name": "delete_entity", "kind": "tool", "summary": "Deletes supported QuickBooks transactions.", "risk": "state_changing", "evidence": "repository"}
       ],
       "readWriteRisk": "mixed",
       "maintenanceStatus": "active",
       "lastReleaseOrCommitAt": "2026-08-04T22:28:14.193Z",
-      "limitations": ["Community server; the README links a separate Intuit official MCP as an alternative.", "Production-book focus and broad write tools create high operational risk.", "No runtime attempt was made because OAuth credentials and a company realm are required."],
+      "limitations": ["Community server; the README links a separate Intuit official MCP as an alternative.", "Production-book focus and broad write tools create high operational risk.", "No runtime attempt was made because OAuth credentials and a company realm are required.", "Intuit now maintains a separate official QuickBooks Online MCP server; this community server remains a distinct production-bookkeeping-oriented implementation."],
       "test": {"status": "documentation_only", "testedAt": null, "versionOrCommit": "0.8.0", "transport": "stdio", "initialize": "not_attempted", "toolsList": "not_attempted", "resourcesList": "not_attempted", "promptsList": "not_attempted", "readCall": "not_attempted", "evidencePath": null, "notes": "Not started because setup requires an Intuit OAuth application and company realm. Write-capable tools were not invoked."},
       "sources": [
-        {"title": "QuickBooks MCP repository", "url": "https://github.com/laf-rge/quickbooks-mcp", "accessedAt": "2026-08-10T10:30:00Z", "supports": ["community maintainer", "MIT license", "runtime", "OAuth setup", "report and query tools", "write and delete tools", "credential persistence modes"]},
-        {"title": "Intuit QuickBooks Online API documentation", "url": "https://developer.intuit.com/app/developer/qbo/docs/get-started", "accessedAt": "2026-08-10T10:30:00Z", "supports": ["upstream provider", "developer-app and OAuth requirement"]}
+        {"title": "QuickBooks MCP repository", "url": "https://github.com/laf-rge/quickbooks-mcp", "accessedAt": "2026-08-14T13:48:58Z", "supports": ["community maintainer", "MIT license", "runtime", "OAuth setup", "report and query tools", "write and delete tools", "credential persistence modes", "provider", "authentication", "capabilities", "deployment model", "financial workflows", "limitations"], "evidenceType": "repository"},
+        {"title": "Intuit QuickBooks Online API documentation", "url": "https://developer.intuit.com/app/developer/qbo/docs/get-started", "accessedAt": "2026-08-14T13:48:58Z", "supports": ["upstream provider", "developer-app and OAuth requirement", "pricing"], "evidenceType": "documentation"}
       ],
-      "verifiedAt": "2026-08-10T10:30:00Z"
+      "verifiedAt": "2026-08-14T13:48:58Z"
     },
     {
       "id": "pipeworx-alphavantage",
@@ -419,14 +450,17 @@
       "commercialUse": "allowed",
       "transports": ["streamable_http"],
       "installation": "Connect to https://gateway.pipeworx.io/alphavantage/mcp or use the Pipeworx CLI.",
+      "deploymentModel": "Provider-hosted Streamable HTTP endpoint.",
       "runtime": ["Hosted Pipeworx gateway"],
-      "authentication": ["Anonymous MCP initialization succeeded; upstream/provider limits may apply"],
-      "authenticationClass": "none",
+      "authentication": ["Bring-your-own upstream API key is required by current repository documentation", "Anonymous gateway discovery succeeded in the older runtime snapshot but is not a documented access entitlement"],
+      "authenticationClass": "required",
       "upstreamProviders": ["Alpha Vantage"],
       "geographies": ["Global markets represented by Alpha Vantage; exact coverage varies by endpoint"],
       "institutions": ["Public issuers"],
       "markets": ["Equities", "Foreign exchange", "Crypto", "Economic indicators"],
       "assetClasses": ["Stocks", "Currencies", "Cryptocurrencies"],
+      "financialWorkflows": ["Equity quote and historical-price research", "Fundamental-statement analysis", "Earnings research"],
+      "pricing": "The repository documents an Alpha Vantage free tier of 25 requests/day and paid upstream tiers of roughly $50–250/month.",
       "capabilities": [
         {"name": "av_quote", "kind": "tool", "summary": "Retrieves a latest quote by symbol.", "risk": "read_only", "evidence": "runtime"},
         {"name": "av_daily", "kind": "tool", "summary": "Retrieves daily time-series data.", "risk": "read_only", "evidence": "runtime"},
@@ -439,13 +473,13 @@
       "readWriteRisk": "read_only",
       "maintenanceStatus": "active",
       "lastReleaseOrCommitAt": "2026-04-15T20:16:23.005Z",
-      "limitations": ["The hosted endpoint exposes shared gateway capabilities alongside Alpha Vantage tools.", "Free-tier quotes are documented as 15-minute delayed and quota-limited.", "The av_quote read returned output that failed the declared MCP output schema during this test."],
+      "limitations": ["The hosted endpoint exposes shared gateway capabilities alongside Alpha Vantage tools.", "Free-tier quotes are documented as 15-minute delayed and quota-limited.", "The av_quote read returned output that failed the declared MCP output schema during this test.", "Current repository authentication guidance conflicts with the older anonymous initialization snapshot; plan for a user-supplied Alpha Vantage key."],
       "test": {"status": "verified", "testedAt": "2026-08-10T10:37:44.800Z", "versionOrCommit": "0.1.0", "transport": "streamable_http", "initialize": "passed", "toolsList": "passed", "resourcesList": "passed", "promptsList": "passed", "readCall": "failed", "evidencePath": "../research/evidence/pipeworx-alphavantage.json", "notes": "Negotiated MCP 2025-03-26 and discovered 37 tools and 12 prompts. An allowlisted IBM quote call failed SDK output-schema validation; no payload was retained."},
       "sources": [
-        {"title": "Pipeworx Alpha Vantage MCP repository", "url": "https://github.com/pipeworx-io/mcp-alphavantage", "accessedAt": "2026-08-10T10:30:00Z", "supports": ["maintainer", "MIT license", "hosted endpoint", "tool workflows", "Alpha Vantage scope", "delay and quota limitations"]},
-        {"title": "Alpha Vantage documentation", "url": "https://www.alphavantage.co/documentation/", "accessedAt": "2026-08-10T10:30:00Z", "supports": ["upstream provider", "market-data endpoint scope"]}
+        {"title": "Pipeworx Alpha Vantage MCP repository", "url": "https://github.com/pipeworx-io/mcp-alphavantage", "accessedAt": "2026-08-14T13:48:58Z", "supports": ["maintainer", "MIT license", "hosted endpoint", "tool workflows", "Alpha Vantage scope", "delay and quota limitations", "provider", "authentication", "capabilities", "deployment model", "financial workflows", "limitations"], "evidenceType": "repository"},
+        {"title": "Alpha Vantage documentation", "url": "https://www.alphavantage.co/documentation/", "accessedAt": "2026-08-14T13:48:58Z", "supports": ["upstream provider", "market-data endpoint scope", "pricing"], "evidenceType": "documentation"}
       ],
-      "verifiedAt": "2026-08-10T10:37:44.800Z"
+      "verifiedAt": "2026-08-14T13:48:58Z"
     },
     {
       "id": "pipeworx-coinmarketcap",
@@ -461,14 +495,17 @@
       "commercialUse": "allowed",
       "transports": ["streamable_http"],
       "installation": "Connect to https://gateway.pipeworx.io/coinmarketcap/mcp; no local install is required.",
+      "deploymentModel": "Provider-hosted Streamable HTTP endpoint.",
       "runtime": ["Hosted Pipeworx gateway"],
-      "authentication": ["Anonymous MCP initialization and one public read succeeded; provider limits may apply"],
-      "authenticationClass": "none",
+      "authentication": ["Bring-your-own upstream API key is required by current repository documentation", "Anonymous gateway discovery succeeded in the older runtime snapshot but is not a documented access entitlement"],
+      "authenticationClass": "required",
       "upstreamProviders": ["CoinMarketCap"],
       "geographies": ["Global crypto markets"],
       "institutions": ["Crypto projects and exchanges represented by CoinMarketCap"],
       "markets": ["Cryptocurrency spot markets", "Crypto sectors"],
       "assetClasses": ["Cryptocurrencies", "Tokens"],
+      "financialWorkflows": ["Crypto listing and quote research", "Global market metric analysis", "Category and metadata lookup"],
+      "pricing": "The repository documents CoinMarketCap's Basic plan as 10,000 credits/month; Pipeworx gateway plan limits are separate.",
       "capabilities": [
         {"name": "quotes", "kind": "tool", "summary": "Retrieves crypto quotes.", "risk": "read_only", "evidence": "runtime"},
         {"name": "listings_latest", "kind": "tool", "summary": "Lists top-ranked assets by market capitalization with optional limits.", "risk": "read_only", "evidence": "runtime"},
@@ -480,13 +517,440 @@
       "readWriteRisk": "read_only",
       "maintenanceStatus": "active",
       "lastReleaseOrCommitAt": "2026-05-13T04:08:54.964Z",
-      "limitations": ["The endpoint includes shared Pipeworx tools and prompts in addition to CoinMarketCap tools.", "Coverage and rate limits inherit upstream and gateway policies.", "No execution or trading capability is provided by the researched tools."],
+      "limitations": ["The endpoint includes shared Pipeworx tools and prompts in addition to CoinMarketCap tools.", "Coverage and rate limits inherit upstream and gateway policies.", "No execution or trading capability is provided by the researched tools.", "Current repository authentication guidance conflicts with the older anonymous read snapshot; plan for a user-supplied CoinMarketCap key."],
       "test": {"status": "verified", "testedAt": "2026-08-10T10:37:47.912Z", "versionOrCommit": "0.1.0", "transport": "streamable_http", "initialize": "passed", "toolsList": "passed", "resourcesList": "passed", "promptsList": "passed", "readCall": "passed", "evidencePath": "../research/evidence/pipeworx-coinmarketcap.json", "notes": "Negotiated MCP 2025-03-26; discovered 37 tools and 12 prompts. A listings_latest call limited to one public result passed; values were not retained."},
       "sources": [
-        {"title": "Pipeworx CoinMarketCap MCP repository", "url": "https://github.com/pipeworx-io/mcp-coinmarketcap", "accessedAt": "2026-08-10T10:30:00Z", "supports": ["maintainer", "MIT license", "hosted endpoint", "tool names and descriptions", "CoinMarketCap upstream"]},
-        {"title": "CoinMarketCap API documentation", "url": "https://coinmarketcap.com/api/documentation/v1/", "accessedAt": "2026-08-10T10:30:00Z", "supports": ["upstream provider", "listings, quotes, metadata, and global-metrics domains"]}
+        {"title": "Pipeworx CoinMarketCap MCP repository", "url": "https://github.com/pipeworx-io/mcp-coinmarketcap", "accessedAt": "2026-08-14T13:48:58Z", "supports": ["maintainer", "MIT license", "hosted endpoint", "tool names and descriptions", "CoinMarketCap upstream", "provider", "authentication", "capabilities", "deployment model", "financial workflows", "limitations"], "evidenceType": "repository"},
+        {"title": "CoinMarketCap API documentation", "url": "https://coinmarketcap.com/api/documentation/v1/", "accessedAt": "2026-08-14T13:48:58Z", "supports": ["upstream provider", "listings, quotes, metadata, and global-metrics domains", "pricing"], "evidenceType": "documentation"}
       ],
-      "verifiedAt": "2026-08-10T10:37:47.912Z"
+      "verifiedAt": "2026-08-14T13:48:58Z"
+    },
+    {
+      "id": "paypal-agent-toolkit",
+      "name": "PayPal Agent Toolkit MCP",
+      "summary": "PayPal's official MCP integration for orders, payments, transactions, refunds, invoices, subscriptions, and disputes.",
+      "maintainer": "PayPal",
+      "maintainerType": "provider",
+      "official": true,
+      "categories": ["payments", "accounting_treasury"],
+      "repositoryUrl": "https://github.com/paypal/agent-toolkit",
+      "documentationUrl": "https://developer.paypal.com/ai-tools/mcp-server",
+      "license": "Apache-2.0",
+      "commercialUse": "allowed",
+      "transports": ["stdio"],
+      "installation": "Install @paypal/agent-toolkit and run its MCP server with PayPal application credentials; use sandbox credentials for development.",
+      "deploymentModel": "Self-hosted local stdio server built on the TypeScript toolkit.",
+      "runtime": ["Node.js", "TypeScript package"],
+      "authentication": ["PayPal client ID and client secret", "Sandbox developer account for non-production testing"],
+      "authenticationClass": "required",
+      "upstreamProviders": ["PayPal REST APIs"],
+      "geographies": ["PayPal-supported markets; product availability varies"],
+      "institutions": ["PayPal business and developer accounts"],
+      "markets": ["Online payments", "Invoicing", "Subscriptions"],
+      "assetClasses": ["Fiat payments", "Invoices"],
+      "financialWorkflows": ["Order creation and capture", "Payment and refund operations", "Invoice and subscription management", "Transaction and dispute review"],
+      "pricing": "No MCP-specific charge is documented; PayPal publishes product and transaction fees separately.",
+      "capabilities": [
+        {"name": "create_order", "kind": "tool", "summary": "Creates a PayPal order.", "risk": "state_changing", "evidence": "repository"},
+        {"name": "list_transactions", "kind": "tool", "summary": "Lists account transactions.", "risk": "read_only", "evidence": "repository"},
+        {"name": "create_invoice", "kind": "tool", "summary": "Creates an invoice.", "risk": "state_changing", "evidence": "repository"},
+        {"name": "create_refund", "kind": "tool", "summary": "Refunds a captured payment.", "risk": "state_changing", "evidence": "repository"}
+      ],
+      "readWriteRisk": "mixed",
+      "maintenanceStatus": "active",
+      "lastReleaseOrCommitAt": "2026-08-10T20:44:49Z",
+      "limitations": ["Requires a PayPal developer or business account and credentials.", "Tool selection must be restricted because payment, refund, and invoice tools change financial state.", "No runtime connection was attempted."],
+      "test": {"status": "documentation_only", "testedAt": null, "versionOrCommit": null, "transport": null, "initialize": "not_attempted", "toolsList": "not_attempted", "resourcesList": "not_attempted", "promptsList": "not_attempted", "readCall": "not_attempted", "evidencePath": null, "notes": "Primary repository and provider documentation reviewed; no credentials were supplied and no runtime call was attempted."},
+      "sources": [
+        {"title": "PayPal Agent Toolkit repository", "url": "https://github.com/paypal/agent-toolkit", "accessedAt": "2026-08-14T13:48:58Z", "evidenceType": "repository", "supports": ["provider", "authentication", "capabilities", "deployment model", "financial workflows", "limitations", "Apache-2.0 license"]},
+        {"title": "PayPal MCP documentation", "url": "https://developer.paypal.com/ai-tools/mcp-server", "accessedAt": "2026-08-14T13:48:58Z", "evidenceType": "documentation", "supports": ["official MCP setup", "authentication", "sandbox guidance"]},
+        {"title": "PayPal business fees", "url": "https://www.paypal.com/us/business/paypal-business-fees", "accessedAt": "2026-08-14T13:48:58Z", "evidenceType": "documentation", "supports": ["pricing"]}
+      ],
+      "verifiedAt": "2026-08-14T13:48:58Z"
+    },
+    {
+      "id": "plaid-sandbox",
+      "name": "Plaid Sandbox MCP",
+      "summary": "Plaid's official local MCP server for documentation search, mock financial data, sandbox access tokens, and webhook simulation.",
+      "maintainer": "Plaid",
+      "maintainerType": "provider",
+      "official": true,
+      "categories": ["open_banking"],
+      "repositoryUrl": "https://github.com/plaid/ai-coding-toolkit/tree/main/sandbox",
+      "documentationUrl": "https://github.com/plaid/ai-coding-toolkit/tree/main/sandbox#readme",
+      "license": "MIT",
+      "commercialUse": "allowed",
+      "transports": ["stdio"],
+      "installation": "Run uvx mcp-server-plaid with Plaid sandbox client ID and secret.",
+      "deploymentModel": "Self-hosted local stdio process installed from the Python package.",
+      "runtime": ["Python", "uvx or pip"],
+      "authentication": ["Plaid sandbox client ID", "Plaid sandbox secret"],
+      "authenticationClass": "required",
+      "upstreamProviders": ["Plaid Sandbox API", "Plaid documentation"],
+      "geographies": ["Plaid Sandbox; not a claim of production institution coverage"],
+      "institutions": ["Mock Plaid Sandbox institutions"],
+      "markets": ["Open-banking integration development"],
+      "assetClasses": ["Mock bank accounts and transactions"],
+      "financialWorkflows": ["Open-banking integration testing", "Mock financial-data generation", "Sandbox token creation", "Webhook simulation"],
+      "pricing": "The MCP is MIT-licensed; Plaid publishes Sandbox and production product pricing separately.",
+      "capabilities": [
+        {"name": "search_documentation", "kind": "tool", "summary": "Searches Plaid product and API documentation.", "risk": "read_only", "evidence": "repository"},
+        {"name": "get_mock_data_prompt", "kind": "tool", "summary": "Returns a prompt for customized mock financial test data.", "risk": "read_only", "evidence": "repository"},
+        {"name": "get_sandbox_access_token", "kind": "tool", "summary": "Creates a Plaid Sandbox access token.", "risk": "state_changing", "evidence": "repository"},
+        {"name": "simulate_webhook", "kind": "tool", "summary": "Triggers a simulated sandbox webhook.", "risk": "state_changing", "evidence": "repository"}
+      ],
+      "readWriteRisk": "mixed",
+      "maintenanceStatus": "active",
+      "lastReleaseOrCommitAt": "2026-08-10T19:26:48Z",
+      "limitations": ["The open-source server is explicitly sandbox-focused and must not be presented as live bank-account access.", "Sandbox credentials are still required.", "Webhook and token tools mutate only sandbox state; none were invoked."],
+      "test": {"status": "documentation_only", "testedAt": null, "versionOrCommit": null, "transport": null, "initialize": "not_attempted", "toolsList": "not_attempted", "resourcesList": "not_attempted", "promptsList": "not_attempted", "readCall": "not_attempted", "evidencePath": null, "notes": "Repository assessment only; sandbox credentials were not provisioned and no runtime test was attempted."},
+      "sources": [
+        {"title": "Plaid Sandbox MCP repository", "url": "https://github.com/plaid/ai-coding-toolkit/tree/main/sandbox", "accessedAt": "2026-08-14T13:48:58Z", "evidenceType": "repository", "supports": ["provider", "authentication", "capabilities", "deployment model", "financial workflows", "limitations", "MIT license", "sandbox-only scope"]},
+        {"title": "Plaid pricing", "url": "https://plaid.com/pricing/", "accessedAt": "2026-08-14T13:48:58Z", "evidenceType": "documentation", "supports": ["pricing", "Sandbox and production plan context"]}
+      ],
+      "verifiedAt": "2026-08-14T13:48:58Z"
+    },
+    {
+      "id": "adyen",
+      "name": "Adyen MCP Server",
+      "summary": "Adyen's official alpha MCP server for Checkout, payment links, payment modifications, management, disputes, and balance-platform APIs.",
+      "maintainer": "Adyen",
+      "maintainerType": "provider",
+      "official": true,
+      "categories": ["payments", "accounting_treasury"],
+      "repositoryUrl": "https://github.com/Adyen/adyen-mcp",
+      "documentationUrl": "https://docs.adyen.com/development-resources/mcp-server/",
+      "license": "MIT",
+      "commercialUse": "allowed",
+      "transports": ["stdio"],
+      "installation": "Run npx -y @adyen/mcp with a dedicated restricted Adyen API key and TEST environment; explicitly enable only needed tools.",
+      "deploymentModel": "Self-hosted local stdio process distributed through npm.",
+      "runtime": ["Node.js", "TypeScript package"],
+      "authentication": ["Dedicated Adyen web-service user API key", "Role grants required by enabled tools"],
+      "authenticationClass": "required",
+      "upstreamProviders": ["Adyen APIs"],
+      "geographies": ["Adyen-supported markets; API product availability varies"],
+      "institutions": ["Adyen company and merchant accounts"],
+      "markets": ["Merchant payments", "Disputes", "Balance platforms"],
+      "assetClasses": ["Fiat payments", "Merchant balances"],
+      "financialWorkflows": ["Checkout session and payment-link management", "Payment cancellation and refund", "Merchant-account and payment-method review", "Dispute and balance-platform operations"],
+      "pricing": "No MCP-specific charge is documented; Adyen publishes processing pricing separately.",
+      "capabilities": [
+        {"name": "create_payment_session", "kind": "tool", "summary": "Creates a Checkout sessions payment request.", "risk": "state_changing", "evidence": "repository"},
+        {"name": "get_payment_session", "kind": "tool", "summary": "Gets a payment-session result.", "risk": "read_only", "evidence": "repository"},
+        {"name": "create_payment_link", "kind": "tool", "summary": "Creates a payment link.", "risk": "state_changing", "evidence": "repository"},
+        {"name": "refund_payment", "kind": "tool", "summary": "Refunds a captured payment.", "risk": "state_changing", "evidence": "repository"}
+      ],
+      "readWriteRisk": "mixed",
+      "maintenanceStatus": "active",
+      "lastReleaseOrCommitAt": "2026-08-12T02:44:18Z",
+      "limitations": ["The repository labels the server alpha.", "A dedicated API key and least-privilege roles are required.", "The broad surface includes high-impact payment and refund operations; no runtime tool was invoked."],
+      "test": {"status": "documentation_only", "testedAt": null, "versionOrCommit": null, "transport": null, "initialize": "not_attempted", "toolsList": "not_attempted", "resourcesList": "not_attempted", "promptsList": "not_attempted", "readCall": "not_attempted", "evidencePath": null, "notes": "Repository and provider docs reviewed; credentials were not supplied and no runtime test was attempted."},
+      "sources": [
+        {"title": "Adyen MCP repository", "url": "https://github.com/Adyen/adyen-mcp", "accessedAt": "2026-08-14T13:48:58Z", "evidenceType": "repository", "supports": ["provider", "authentication", "capabilities", "deployment model", "financial workflows", "limitations", "MIT license", "alpha status", "least-privilege guidance"]},
+        {"title": "Adyen MCP documentation", "url": "https://docs.adyen.com/development-resources/mcp-server/", "accessedAt": "2026-08-14T13:48:58Z", "evidenceType": "documentation", "supports": ["official setup", "authentication", "capabilities"]},
+        {"title": "Adyen pricing", "url": "https://www.adyen.com/pricing", "accessedAt": "2026-08-14T13:48:58Z", "evidenceType": "documentation", "supports": ["pricing"]}
+      ],
+      "verifiedAt": "2026-08-14T13:48:58Z"
+    },
+    {
+      "id": "quickbooks-official",
+      "name": "QuickBooks Online MCP Server (official)",
+      "summary": "Intuit's official local MCP server exposing QuickBooks Online CRUD operations and financial reports.",
+      "maintainer": "Intuit",
+      "maintainerType": "provider",
+      "official": true,
+      "categories": ["accounting_treasury"],
+      "repositoryUrl": "https://github.com/intuit/quickbooks-online-mcp-server",
+      "documentationUrl": "https://github.com/intuit/quickbooks-online-mcp-server#readme",
+      "license": "Apache-2.0",
+      "commercialUse": "allowed",
+      "transports": ["stdio"],
+      "installation": "Clone and build the Node.js server, configure Intuit OAuth credentials, and launch its stdio entry point; disable write, update, or delete tool groups when not required.",
+      "deploymentModel": "Self-hosted local stdio process on the developer or partner machine.",
+      "runtime": ["Node.js", "Local stdio server"],
+      "authentication": ["Intuit OAuth 2.0", "QuickBooks Online company authorization"],
+      "authenticationClass": "required",
+      "upstreamProviders": ["QuickBooks Online API"],
+      "geographies": ["QuickBooks Online-supported regions"],
+      "institutions": ["Authorized QuickBooks Online companies"],
+      "markets": ["Small-business accounting"],
+      "assetClasses": ["Invoices", "Ledger accounts", "Bills", "Payments"],
+      "financialWorkflows": ["Financial reporting", "Customer, vendor, invoice, and bill management", "Ledger and transaction review", "Payment and tax-record management"],
+      "pricing": "The official server is Apache-2.0 licensed; this snapshot did not establish upstream QuickBooks Online account pricing.",
+      "capabilities": [
+        {"name": "get_profit_and_loss", "kind": "tool", "summary": "Retrieves a profit-and-loss report.", "risk": "read_only", "evidence": "repository"},
+        {"name": "get_balance_sheet", "kind": "tool", "summary": "Retrieves a balance-sheet report.", "risk": "read_only", "evidence": "repository"},
+        {"name": "search_invoices", "kind": "tool", "summary": "Searches invoices.", "risk": "read_only", "evidence": "repository"},
+        {"name": "create_invoice", "kind": "tool", "summary": "Creates an invoice.", "risk": "state_changing", "evidence": "repository"},
+        {"name": "delete_invoice", "kind": "tool", "summary": "Deletes or voids an invoice.", "risk": "state_changing", "evidence": "repository"}
+      ],
+      "readWriteRisk": "mixed",
+      "maintenanceStatus": "active",
+      "lastReleaseOrCommitAt": "2026-08-10T21:14:42Z",
+      "limitations": ["Requires a QuickBooks Online company and OAuth authorization.", "The default surface is broad; documented disable flags should be used to suppress unneeded mutation tools.", "No credentialed runtime or authorization-boundary test was performed."],
+      "test": {"status": "documentation_only", "testedAt": null, "versionOrCommit": null, "transport": null, "initialize": "not_attempted", "toolsList": "not_attempted", "resourcesList": "not_attempted", "promptsList": "not_attempted", "readCall": "not_attempted", "evidencePath": null, "notes": "Official repository and Intuit getting-started documentation reviewed; no OAuth flow was performed."},
+      "sources": [
+        {"title": "Intuit QuickBooks Online MCP repository", "url": "https://github.com/intuit/quickbooks-online-mcp-server", "accessedAt": "2026-08-14T13:48:58Z", "evidenceType": "repository", "supports": ["provider", "authentication", "capabilities", "deployment model", "financial workflows", "limitations", "pricing", "Apache-2.0 license", "official implementation", "tool-disable flags"]},
+        {"title": "QuickBooks Online API getting started", "url": "https://developer.intuit.com/app/developer/qbo/docs/get-started", "accessedAt": "2026-08-14T13:48:58Z", "evidenceType": "documentation", "supports": ["upstream provider", "OAuth and company requirement"]}
+      ],
+      "verifiedAt": "2026-08-14T13:48:58Z"
+    },
+    {
+      "id": "coinbase-agentkit",
+      "name": "Coinbase AgentKit MCP Extension",
+      "summary": "Coinbase's official AgentKit extension that exposes configured onchain action providers through an MCP tools interface.",
+      "maintainer": "Coinbase",
+      "maintainerType": "provider",
+      "official": true,
+      "categories": ["crypto_defi", "payments", "investments"],
+      "repositoryUrl": "https://github.com/coinbase/agentkit/tree/main/typescript/framework-extensions/model-context-protocol",
+      "documentationUrl": "https://github.com/coinbase/agentkit/tree/main/typescript/framework-extensions/model-context-protocol#readme",
+      "license": "Apache-2.0",
+      "commercialUse": "allowed",
+      "transports": ["stdio"],
+      "installation": "Install @coinbase/agentkit-model-context-protocol with AgentKit and the MCP SDK, configure CDP credentials, and connect the generated tool handler to stdio.",
+      "deploymentModel": "Embeddable TypeScript MCP extension; the repository example runs a self-hosted stdio server.",
+      "runtime": ["Node.js 18+", "TypeScript"],
+      "authentication": ["Coinbase Developer Platform API key ID and secret", "Wallet material or generated wallet depending on configured actions"],
+      "authenticationClass": "required",
+      "upstreamProviders": ["Coinbase Developer Platform", "Configured AgentKit action providers"],
+      "geographies": ["Availability varies by CDP product, network, and jurisdiction"],
+      "institutions": ["Coinbase Developer Platform"],
+      "markets": ["Onchain networks"],
+      "assetClasses": ["Cryptocurrencies", "Tokens", "NFTs"],
+      "financialWorkflows": ["Onchain price lookup", "Wallet and asset transfer operations", "Token and NFT deployment", "Configured AgentKit action execution"],
+      "pricing": "No MCP-specific charge is documented; CDP, network, and configured action costs vary and were not quantified in this snapshot.",
+      "capabilities": [
+        {"name": "AgentKit generated tools", "kind": "tool", "summary": "Converts the configured AgentKit action set into MCP tools.", "risk": "mixed", "evidence": "repository"},
+        {"name": "price lookup", "kind": "tool", "summary": "The official example documents cryptocurrency price lookup.", "risk": "read_only", "evidence": "repository"},
+        {"name": "asset transfer", "kind": "tool", "summary": "The official example documents wallet transfers.", "risk": "state_changing", "evidence": "repository"},
+        {"name": "token deployment", "kind": "tool", "summary": "The official example documents ERC-20 and NFT deployment.", "risk": "state_changing", "evidence": "repository"}
+      ],
+      "readWriteRisk": "mixed",
+      "maintenanceStatus": "active",
+      "lastReleaseOrCommitAt": "2026-08-13T14:19:13Z",
+      "limitations": ["The exact tool list depends on separately configured AgentKit action providers.", "Examples include transfers and contract deployment, so a default-trust connection would be unsafe.", "No wallet, key, signer, or runtime tool was exercised."],
+      "test": {"status": "documentation_only", "testedAt": null, "versionOrCommit": null, "transport": null, "initialize": "not_attempted", "toolsList": "not_attempted", "resourcesList": "not_attempted", "promptsList": "not_attempted", "readCall": "not_attempted", "evidencePath": null, "notes": "Repository package and example reviewed; no CDP credential or wallet was configured and no runtime test was attempted."},
+      "sources": [
+        {"title": "Coinbase AgentKit MCP extension", "url": "https://github.com/coinbase/agentkit/tree/main/typescript/framework-extensions/model-context-protocol", "accessedAt": "2026-08-14T13:48:58Z", "evidenceType": "repository", "supports": ["provider", "authentication", "capabilities", "deployment model", "financial workflows", "limitations", "Apache-2.0 license", "MCP tool conversion"]},
+        {"title": "Coinbase AgentKit MCP smart-wallet example", "url": "https://github.com/coinbase/agentkit/tree/main/typescript/examples/model-context-protocol-smart-wallet-server", "accessedAt": "2026-08-14T13:48:58Z", "evidenceType": "repository", "supports": ["authentication", "deployment model", "example capabilities", "limitations", "pricing"]}
+      ],
+      "verifiedAt": "2026-08-14T13:48:58Z"
+    },
+    {
+      "id": "financial-datasets",
+      "name": "Financial Datasets MCP Server",
+      "summary": "Financial Datasets' official MCP server for company financial statements, stock prices, crypto prices, and market news.",
+      "maintainer": "Financial Datasets",
+      "maintainerType": "provider",
+      "official": true,
+      "categories": ["market_data", "investments"],
+      "repositoryUrl": "https://github.com/financial-datasets/mcp-server",
+      "documentationUrl": "https://github.com/financial-datasets/mcp-server#readme",
+      "license": "MIT",
+      "commercialUse": "allowed",
+      "transports": ["stdio"],
+      "installation": "Clone the Python server, install dependencies with uv, and configure FINANCIAL_DATASETS_API_KEY for a local stdio client.",
+      "deploymentModel": "Self-hosted local Python stdio process.",
+      "runtime": ["Python", "uv", "MCP Python SDK"],
+      "authentication": ["Financial Datasets API key"],
+      "authenticationClass": "required",
+      "upstreamProviders": ["Financial Datasets API"],
+      "geographies": ["Company and market coverage is provider-defined and not exhaustively stated in the MCP repository"],
+      "institutions": ["Public companies represented by Financial Datasets"],
+      "markets": ["Equities", "Cryptocurrency", "Market news"],
+      "assetClasses": ["Stocks", "Cryptocurrencies", "Corporate financial statements"],
+      "financialWorkflows": ["Income-statement, balance-sheet, and cash-flow research", "Current and historical stock-price lookup", "Crypto-price lookup", "Market-news research"],
+      "pricing": "Financial Datasets publishes API plans separately; no MCP-specific charge is documented.",
+      "capabilities": [
+        {"name": "get_income_statements", "kind": "tool", "summary": "Retrieves company income statements.", "risk": "read_only", "evidence": "repository"},
+        {"name": "get_balance_sheets", "kind": "tool", "summary": "Retrieves company balance sheets.", "risk": "read_only", "evidence": "repository"},
+        {"name": "get_cash_flow_statements", "kind": "tool", "summary": "Retrieves company cash-flow statements.", "risk": "read_only", "evidence": "repository"},
+        {"name": "get_current_stock_price", "kind": "tool", "summary": "Gets the latest company stock price.", "risk": "read_only", "evidence": "repository"},
+        {"name": "get_historical_stock_prices", "kind": "tool", "summary": "Gets historical company stock prices.", "risk": "read_only", "evidence": "repository"}
+      ],
+      "readWriteRisk": "read_only",
+      "maintenanceStatus": "limited",
+      "lastReleaseOrCommitAt": "2025-06-05T19:50:38Z",
+      "limitations": ["Requires a Financial Datasets API key.", "The repository has meaningful source and documentation evidence but had no commit after June 2025; maintenance is marked limited rather than assumed active.", "No runtime connection or provider coverage audit was performed."],
+      "test": {"status": "documentation_only", "testedAt": null, "versionOrCommit": null, "transport": null, "initialize": "not_attempted", "toolsList": "not_attempted", "resourcesList": "not_attempted", "promptsList": "not_attempted", "readCall": "not_attempted", "evidencePath": null, "notes": "Repository and pricing page reviewed; no API key was supplied and no runtime test was attempted."},
+      "sources": [
+        {"title": "Financial Datasets MCP repository", "url": "https://github.com/financial-datasets/mcp-server", "accessedAt": "2026-08-14T13:48:58Z", "evidenceType": "repository", "supports": ["provider", "authentication", "capabilities", "deployment model", "financial workflows", "limitations", "MIT license", "maintenance timestamp"]},
+        {"title": "Financial Datasets pricing", "url": "https://www.financialdatasets.ai/pricing", "accessedAt": "2026-08-14T13:48:58Z", "evidenceType": "documentation", "supports": ["pricing"]}
+      ],
+      "verifiedAt": "2026-08-14T13:48:58Z"
+    },
+    {
+      "id": "actual-budget",
+      "name": "Actual Budget MCP Server",
+      "summary": "An active community MCP server for reading and, when explicitly enabled, mutating an Actual Budget personal-finance dataset.",
+      "maintainer": "s-stefanov",
+      "maintainerType": "community",
+      "official": false,
+      "categories": ["personal_finance"],
+      "repositoryUrl": "https://github.com/s-stefanov/actual-mcp",
+      "documentationUrl": "https://github.com/s-stefanov/actual-mcp#readme",
+      "license": "MIT",
+      "commercialUse": "allowed",
+      "transports": ["stdio"],
+      "installation": "Run npx actual-mcp or a Docker image with Actual server URL, password, and optional budget ID; write tools require the documented --enable-write flag.",
+      "deploymentModel": "Self-hosted stdio or Dockerized local/remote process connected to an Actual Budget server.",
+      "runtime": ["Node.js", "npm or Docker"],
+      "authentication": ["Actual Budget server URL and password", "Optional separate encrypted-budget password"],
+      "authenticationClass": "required",
+      "upstreamProviders": ["Actual Budget API"],
+      "geographies": ["Self-hosted; user-controlled"],
+      "institutions": ["User's Actual Budget instance"],
+      "markets": ["Household budgeting"],
+      "assetClasses": ["Cash accounts", "Transactions", "Budgets"],
+      "financialWorkflows": ["Account and balance review", "Transaction search and categorization", "Budget analysis", "Optional transaction and rule management"],
+      "pricing": "The MCP server is MIT-licensed and documents no MCP-specific fee; an Actual Budget installation is required.",
+      "capabilities": [
+        {"name": "get-transactions", "kind": "tool", "summary": "Retrieves and filters transactions.", "risk": "read_only", "evidence": "repository"},
+        {"name": "get-accounts", "kind": "tool", "summary": "Lists accounts and balances.", "risk": "read_only", "evidence": "repository"},
+        {"name": "budget-review", "kind": "tool", "summary": "Analyzes budget compliance.", "risk": "read_only", "evidence": "repository"},
+        {"name": "create-transaction", "kind": "tool", "summary": "Creates an Actual Budget transaction when writes are enabled.", "risk": "state_changing", "evidence": "repository"},
+        {"name": "create-rule", "kind": "tool", "summary": "Creates a transaction rule when writes are enabled.", "risk": "state_changing", "evidence": "repository"}
+      ],
+      "readWriteRisk": "mixed",
+      "maintenanceStatus": "active",
+      "lastReleaseOrCommitAt": "2026-08-12T19:49:31Z",
+      "limitations": ["Requires access to a user's sensitive self-hosted budget dataset.", "Write tools exist and must be explicitly enabled; they were not invoked.", "No real budget, server password, or runtime connection was used."],
+      "test": {"status": "documentation_only", "testedAt": null, "versionOrCommit": null, "transport": null, "initialize": "not_attempted", "toolsList": "not_attempted", "resourcesList": "not_attempted", "promptsList": "not_attempted", "readCall": "not_attempted", "evidencePath": null, "notes": "Active repository reviewed; runtime testing was excluded because it would require a personal or synthetic Actual Budget deployment not already present."},
+      "sources": [
+        {"title": "Actual Budget MCP repository", "url": "https://github.com/s-stefanov/actual-mcp", "accessedAt": "2026-08-14T13:48:58Z", "evidenceType": "repository", "supports": ["provider", "authentication", "capabilities", "deployment model", "financial workflows", "limitations", "MIT license", "write-enable boundary", "pricing"]},
+        {"title": "Actual Budget project", "url": "https://actualbudget.org/", "accessedAt": "2026-08-14T13:48:58Z", "evidenceType": "documentation", "supports": ["upstream project", "self-hosted workflow context"]}
+      ],
+      "verifiedAt": "2026-08-14T13:48:58Z"
+    },
+    {
+      "id": "invoice-express",
+      "name": "InvoiceXpress MCP Server",
+      "summary": "A maintained community MCP adapter for Portuguese InvoiceXpress invoicing, clients, treasury records, SAF-T exports, and payment registration.",
+      "maintainer": "DigitalDev",
+      "maintainerType": "community",
+      "official": false,
+      "categories": ["accounting_treasury", "payments", "regulatory_risk"],
+      "repositoryUrl": "https://github.com/digitaldev-lx/mcp-invoice-express",
+      "documentationUrl": "https://github.com/digitaldev-lx/mcp-invoice-express#readme",
+      "license": "MIT",
+      "commercialUse": "allowed",
+      "transports": ["stdio"],
+      "installation": "Run npx -y @digitaldev-lx/mcp-invoice-express with an InvoiceXpress account subdomain and API key.",
+      "deploymentModel": "Self-hosted local stdio process distributed through npm.",
+      "runtime": ["Node.js 20 or 22", "TypeScript package"],
+      "authentication": ["InvoiceXpress account subdomain", "InvoiceXpress API key"],
+      "authenticationClass": "required",
+      "upstreamProviders": ["InvoiceXpress API V2"],
+      "geographies": ["Portugal-focused invoicing workflows"],
+      "institutions": ["InvoiceXpress accounts"],
+      "markets": ["Business invoicing", "Accounts receivable", "Tax export"],
+      "assetClasses": ["Invoices", "Receipts", "Credit notes", "Payments"],
+      "financialWorkflows": ["Invoice creation, finalization, and delivery", "Client and item management", "Payment registration and treasury lookup", "SAF-T export and tax configuration review"],
+      "pricing": "The MCP server is MIT-licensed; InvoiceXpress account plans are priced separately by the upstream provider.",
+      "capabilities": [
+        {"name": "create_invoice", "kind": "tool", "summary": "Creates an invoice draft.", "risk": "state_changing", "evidence": "repository"},
+        {"name": "list_invoices", "kind": "tool", "summary": "Lists invoices with filters.", "risk": "read_only", "evidence": "repository"},
+        {"name": "register_payment", "kind": "tool", "summary": "Registers an invoice payment.", "risk": "state_changing", "evidence": "repository"},
+        {"name": "export_saft", "kind": "tool", "summary": "Starts or retrieves a SAF-T export.", "risk": "state_changing", "evidence": "repository"},
+        {"name": "invoice-express://invoices/recent", "kind": "resource", "summary": "Exposes recent invoices as a read-only resource.", "risk": "read_only", "evidence": "repository"}
+      ],
+      "readWriteRisk": "mixed",
+      "maintenanceStatus": "active",
+      "lastReleaseOrCommitAt": "2026-07-17T13:39:16Z",
+      "limitations": ["Community adapter, not maintained by InvoiceXpress.", "One account and API key are configured per server instance.", "The raw fallback can reach endpoints beyond high-level tools and materially broadens risk.", "No invoice, payment, or export action was invoked."],
+      "test": {"status": "documentation_only", "testedAt": null, "versionOrCommit": null, "transport": null, "initialize": "not_attempted", "toolsList": "not_attempted", "resourcesList": "not_attempted", "promptsList": "not_attempted", "readCall": "not_attempted", "evidencePath": null, "notes": "Repository and upstream pricing page reviewed; account credentials were not supplied and no runtime test was attempted."},
+      "sources": [
+        {"title": "InvoiceXpress MCP repository", "url": "https://github.com/digitaldev-lx/mcp-invoice-express", "accessedAt": "2026-08-14T13:48:58Z", "evidenceType": "repository", "supports": ["provider", "authentication", "capabilities", "deployment model", "financial workflows", "limitations", "MIT license", "tool and resource catalog", "rate-limit notes"]},
+        {"title": "InvoiceXpress API V2", "url": "https://invoicexpress.com/api-v2/documentation/getting-started/", "accessedAt": "2026-08-14T13:48:58Z", "evidenceType": "documentation", "supports": ["upstream API", "authentication"]},
+        {"title": "InvoiceXpress pricing", "url": "https://invoicexpress.com/pricing", "accessedAt": "2026-08-14T13:48:58Z", "evidenceType": "documentation", "supports": ["pricing"]}
+      ],
+      "verifiedAt": "2026-08-14T13:48:58Z"
+    },
+    {
+      "id": "vat-validator",
+      "name": "VAT Validator MCP",
+      "summary": "A provider-hosted MCP service for EU, UK, and Australian VAT/registration checks and VAT-rate lookup.",
+      "maintainer": "Kord Agencies",
+      "maintainerType": "provider",
+      "official": true,
+      "categories": ["regulatory_risk", "accounting_treasury"],
+      "repositoryUrl": "https://github.com/OjasKord/vat-validator-mcp",
+      "documentationUrl": "https://github.com/OjasKord/vat-validator-mcp#readme",
+      "license": "MIT",
+      "commercialUse": "allowed",
+      "transports": ["sse"],
+      "installation": "Connect an SSE-capable MCP client to the documented hosted endpoint; the repository does not document a local server setup.",
+      "deploymentModel": "Provider-hosted SSE endpoint.",
+      "runtime": ["Hosted service"],
+      "authentication": ["No credential documented for the free hosted endpoint", "Provider billing/account relationship may be required above the free allowance"],
+      "authenticationClass": "mixed",
+      "upstreamProviders": ["EU VIES", "UK HMRC VAT API", "Australian Business Register"],
+      "geographies": ["European Union", "United Kingdom", "Australia"],
+      "institutions": ["Tax-registration authorities"],
+      "markets": ["Supplier onboarding", "Accounts payable compliance"],
+      "assetClasses": ["VAT registrations", "Invoices"],
+      "financialWorkflows": ["Supplier VAT validation", "VAT-rate lookup", "Invoice compliance screening"],
+      "pricing": "The repository documents 50 free calls/month with no card, then $0.010 per query on pay-as-you-go billing.",
+      "capabilities": [
+        {"name": "validate_vat", "kind": "tool", "summary": "Validates an EU, UK, or Australian registration and returns provider risk analysis.", "risk": "read_only", "evidence": "repository"},
+        {"name": "get_vat_rates", "kind": "tool", "summary": "Returns VAT-rate information for supported jurisdictions.", "risk": "read_only", "evidence": "repository"}
+      ],
+      "readWriteRisk": "read_only",
+      "maintenanceStatus": "active",
+      "lastReleaseOrCommitAt": "2026-07-30T11:39:00Z",
+      "limitations": ["The repository combines authoritative registry checks with provider-described AI fraud analysis; the latter was not independently validated.", "Hosted availability, retention, and billing behavior were not runtime tested.", "The repository documents only two tools and an SSE endpoint."],
+      "test": {"status": "documentation_only", "testedAt": null, "versionOrCommit": null, "transport": null, "initialize": "not_attempted", "toolsList": "not_attempted", "resourcesList": "not_attempted", "promptsList": "not_attempted", "readCall": "not_attempted", "evidencePath": null, "notes": "Repository and authoritative EU VIES landing page reviewed; no hosted endpoint connection or taxpayer lookup was performed."},
+      "sources": [
+        {"title": "VAT Validator MCP repository", "url": "https://github.com/OjasKord/vat-validator-mcp", "accessedAt": "2026-08-14T13:48:58Z", "evidenceType": "repository", "supports": ["provider", "authentication", "capabilities", "deployment model", "financial workflows", "limitations", "MIT license", "pricing", "hosted endpoint"]},
+        {"title": "European Commission VIES", "url": "https://ec.europa.eu/taxation_customs/vies/", "accessedAt": "2026-08-14T13:48:58Z", "evidenceType": "documentation", "supports": ["authoritative EU upstream", "limitations"]}
+      ],
+      "verifiedAt": "2026-08-14T13:48:58Z"
+    },
+    {
+      "id": "pipeworx-banking-regulations",
+      "name": "Pipeworx Banking Regulations MCP",
+      "summary": "A Pipeworx-hosted MCP adapter for searching and retrieving current U.S. banking and consumer-finance rules codified in 12 CFR.",
+      "maintainer": "Pipeworx",
+      "maintainerType": "provider",
+      "official": true,
+      "categories": ["regulatory_risk", "open_banking"],
+      "repositoryUrl": "https://github.com/pipeworx-io/mcp-banking-regulations",
+      "documentationUrl": "https://github.com/pipeworx-io/mcp-banking-regulations#readme",
+      "license": "MIT",
+      "commercialUse": "allowed",
+      "transports": ["streamable_http"],
+      "installation": "Connect an MCP client to the dedicated Pipeworx banking-regulations Streamable HTTP endpoint.",
+      "deploymentModel": "Provider-hosted Streamable HTTP endpoint.",
+      "runtime": ["Hosted Pipeworx gateway"],
+      "authentication": ["No credential is documented for the dedicated endpoint", "Gateway plan limits may apply"],
+      "authenticationClass": "none",
+      "upstreamProviders": ["U.S. Electronic Code of Federal Regulations, Title 12"],
+      "geographies": ["United States"],
+      "institutions": ["Federal Reserve", "OCC", "FDIC", "CFPB", "NCUA"],
+      "markets": ["Banking compliance", "Consumer-finance regulation"],
+      "assetClasses": ["Regulatory text"],
+      "financialWorkflows": ["Banking-regulation keyword search", "12 CFR section retrieval", "Consumer-finance compliance research"],
+      "pricing": "Pipeworx publishes gateway plans separately; the repository states no per-tool MCP price.",
+      "capabilities": [
+        {"name": "banking_regulation", "kind": "tool", "summary": "Retrieves current text for a named or cited 12 CFR banking rule.", "risk": "read_only", "evidence": "runtime"},
+        {"name": "banking_regulations_search", "kind": "tool", "summary": "Searches U.S. banking regulations by keyword and topic.", "risk": "read_only", "evidence": "runtime"},
+        {"name": "subscribe", "kind": "tool", "summary": "Shared gateway tool discovered at the dedicated endpoint; its write-oriented name is treated as state-changing and it was not invoked.", "risk": "state_changing", "evidence": "runtime"},
+        {"name": "remember", "kind": "tool", "summary": "Shared gateway memory tool discovered at the dedicated endpoint; it was not invoked.", "risk": "state_changing", "evidence": "runtime"},
+        {"name": "regulatory_landscape", "kind": "prompt", "summary": "Shared regulatory-research prompt discovered alongside the banking tools.", "risk": "read_only", "evidence": "runtime"}
+      ],
+      "readWriteRisk": "mixed",
+      "maintenanceStatus": "active",
+      "lastReleaseOrCommitAt": "2026-08-04T06:19:39Z",
+      "limitations": ["Limited to U.S. federal rules in Title 12 and not a substitute for legal advice.", "The dedicated endpoint's runtime catalog exposed 33 shared gateway tools and 12 shared prompts in addition to the two regulation tools.", "Shared tools include write-oriented names such as subscribe, unsubscribe, remember, and forget; they were discovered but never invoked.", "No regulation retrieval or legal-currentness audit was performed."],
+      "test": {"status": "verified", "testedAt": "2026-08-14T14:16:23.230Z", "versionOrCommit": "0.1.0", "transport": "streamable_http", "initialize": "passed", "toolsList": "passed", "resourcesList": "passed", "promptsList": "passed", "readCall": "not_attempted", "evidencePath": "../research/evidence/pipeworx-banking-regulations.json", "notes": "Negotiated MCP 2025-03-26; discovered 33 tools, 0 resources, and 12 prompts. No tool was invoked."},
+      "sources": [
+        {"title": "Pipeworx Banking Regulations MCP repository", "url": "https://github.com/pipeworx-io/mcp-banking-regulations", "accessedAt": "2026-08-14T13:48:58Z", "evidenceType": "repository", "supports": ["provider", "authentication", "capabilities", "deployment model", "financial workflows", "limitations", "MIT license", "hosted endpoint"]},
+        {"title": "eCFR Title 12", "url": "https://www.ecfr.gov/current/title-12", "accessedAt": "2026-08-14T13:48:58Z", "evidenceType": "documentation", "supports": ["authoritative upstream", "U.S. federal scope", "limitations"]},
+        {"title": "Pipeworx pricing", "url": "https://pipeworx.io/pricing/", "accessedAt": "2026-08-14T13:48:58Z", "evidenceType": "documentation", "supports": ["pricing"]}
+      ],
+      "verifiedAt": "2026-08-14T14:16:23.230Z"
     }
   ]
 }

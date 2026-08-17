@@ -11,9 +11,14 @@ or active maintenance.
 ## 2. Source verification
 
 For each candidate, collect the canonical documentation and source/package URL.
-Prefer primary sources. Record the access date in UTC and retain the specific
-source URL supporting each capability or limitation. Do not copy marketing
-claims into the dashboard without attribution.
+Prefer primary sources. Classify each cited source as `repository` or
+`documentation`, record the access date in UTC, and retain a visible mapping
+from each source to the claims it supports. Provider, pricing, authentication,
+capabilities, deployment model, financial workflows, and limitations all
+require a source mapping. Runtime claims remain a separate capability/evidence
+class backed by a sanitized probe artifact. Do not copy marketing claims into
+the dashboard without attribution or promote repository examples to observed
+runtime behavior.
 
 ## 3. Pre-test safety review
 
@@ -91,10 +96,22 @@ support a defensible numeric score.
 
 ## 8. Snapshot-specific choices
 
-The August 10, 2026 dashboard uses qualitative comparison only; it does not
+The August 14, 2026 dashboard uses qualitative comparison only; it does not
 rank or score candidates. `verified` means that initialization and capability
 discovery passed at the recorded time. It is not an endorsement, reliability
 claim, or security assessment.
+
+This snapshot contains 22 candidates. Ten additions were selected from
+official provider repositories or maintained community implementations with a
+distinct finance workflow boundary. Nine additions received primary-source
+review but no credentialed connection attempt, so their status is
+`documentation_only` and their capabilities are labelled `repository` or
+`documentation`, never `runtime`. The credential-free Pipeworx Banking
+Regulations endpoint passed initialization and standards-level discovery; no
+tool was invoked, and its broader shared-gateway surface is recorded as a
+limitation. Tax and invoicing workflows are represented through the existing
+`regulatory_risk` and `accounting_treasury` categories rather than adding
+one-off taxonomy values.
 
 Connection attempts use `scripts/probe-mcp.mjs`. The probe inherits only a
 small runtime environment allowlist, stores capability names rather than full

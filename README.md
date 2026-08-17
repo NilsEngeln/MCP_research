@@ -1,6 +1,6 @@
 # Banking & Finance MCP Research Dashboard
 
-A source-cited comparison of 12 banking and finance Model Context Protocol (MCP) candidates across open banking, payments, market data, investments, crypto/DeFi, accounting, regulatory data, and personal finance.
+A source-cited comparison of 22 banking and finance Model Context Protocol (MCP) candidates across open banking, payments, market data, investments, crypto/DeFi, accounting, regulatory data, and personal finance. The August 14 expansion adds ten distinct provider and workflow candidates without upgrading repository or documentation claims to runtime verification.
 
 The canonical findings are in [`data/mcps.json`](data/mcps.json), validated by [`data/mcps.schema.json`](data/mcps.schema.json). The public dashboard renders that dataset; research claims are not hard-coded only in UI components.
 
@@ -54,11 +54,13 @@ Vite emits relative asset and evidence URLs, so the same `dist/` works at a doma
 
 `npm run validate:data` checks JSON Schema conformance plus task-level invariants:
 
-- at least 12 candidates
+- exactly 22 reviewed candidates for this snapshot
 - unique candidate IDs
 - at least four represented categories
 - at least eight recorded standards-level attempts
 - non-empty claim lists for every source
+- explicit repository-versus-documentation source classes and visible source mapping for provider, pricing, authentication, capabilities, deployment, financial workflows, and limitations
+- documentation-only candidates carrying no runtime-labelled capability claims
 - resolvable evidence paths
 - exact agreement between dataset test results and evidence artifacts
 - every runtime-labelled capability appearing in the recorded discovery catalog
@@ -96,7 +98,7 @@ Connection failures default to `failed`; use `--failure-class blocked` only when
 
 ## Research snapshot
 
-The August 10, 2026 snapshot records 12 candidates and 10 connection attempts. Six initialized successfully; five harmless public reads passed. Credential-gated servers were allowed to fail before initialization rather than supplying production or personal financial credentials.
+The August 14, 2026 snapshot records 22 candidates and carries forward 10 connection attempts from August 10 plus one credential-free public-endpoint probe on August 14. Seven candidates initialized successfully and five harmless public reads passed. Nine of the ten additions remain `documentation_only`; the Pipeworx Banking Regulations endpoint was promoted to `verified` only after initialization and standards-level discovery passed, with no tool invoked. Credential-gated servers were not connected with production, personal-finance, accounting, payment, tax, or wallet credentials.
 
 See:
 
